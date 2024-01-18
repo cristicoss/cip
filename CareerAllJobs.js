@@ -65,7 +65,7 @@ class App {
       getPositions(baPuma, "Brand Ambassadors PUMA", "puma");
       getPositions(baTerrex, "Brand Ambassadors Terrex", "terrex");
       getPositions(internalServices, "Internal Services", "internal");
-      getPositions(creativeHub, "Creative Hub", "hub");
+      getPositions(creativeHub, "Creative Hub");
       getPositions(projectManagers, "Project Manager", "pm");
       getPositions(newTalents, "New Talents", "new");
       getPositions(retailExperts, "Retail Experts", "retail");
