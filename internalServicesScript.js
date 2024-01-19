@@ -2,6 +2,20 @@
 
 "use strict";
 
+import { createApp, reactive } from "https://unpkg.com/petite-vue?module";
+
+const store = reactive({
+  isVisible: true,
+});
+
+createApp({
+  store,
+  changeVisible() {
+    store.isVisible = !store.isVisible;
+    console.log(store.isVisible);
+  },
+}).mount("#app");
+
 const iframeContainer = document.querySelector(".iframe_container");
 const iframeItem = document.querySelector(".iframe_item");
 const jobsContainer = document.querySelector(".job_jobs-wrapper");

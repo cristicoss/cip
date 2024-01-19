@@ -2,9 +2,24 @@
 
 "use strict";
 
+import { createApp, reactive } from "https://unpkg.com/petite-vue?module";
+
+const store = reactive({
+  isVisible: true,
+});
+
+createApp({
+  store,
+  changeVisible() {
+    store.isVisible = !store.isVisible;
+    console.log(store.isVisible);
+  },
+}).mount("#app");
+
 const iframeContainer = document.querySelector(".iframe_container");
 const iframeItem = document.querySelector(".iframe_item");
 const baJobsContainer = document.querySelector(".bajobs_wrapper");
+
 const spontaneousWrapper = document.querySelector(".spontaneous_wrapper");
 const jobTitleWrpr = document.querySelector(".job_title-container");
 const infoAdidas = document.querySelector(".job_info-addias");
@@ -33,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   jobID = urlParams.get("jobid");
   jobCat = urlParams.get("jobcat");
-  document.getElementById("logos").scrollIntoView({ behavior: "smooth" });
 });
 
 const insertIframe = function (id) {
@@ -96,6 +110,21 @@ class App {
 
       if (jobID && jobCat) {
         iframeContainer.classList.remove("hidden");
+        document.getElementById("logos").scrollIntoView({ behavior: "smooth" });
+
+        if (jobCat == "adidas")
+          backBtn.querySelector(
+            ".text_btn-purple"
+          ).innerText = `ALL ADIDAS BRAND AMBASSADORS POSTIONS`;
+        if (jobCat == "puma")
+          backBtn.querySelector(
+            ".text_btn-purple"
+          ).innerText = `ALL PUMA BRAND AMBASSADORS POSTIONS`;
+        if (jobCat == "terrex")
+          backBtn.querySelector(
+            ".text_btn-purple"
+          ).innerText = `ALL ADIDAS TERREX BRAND AMBASSADORS POSTIONS`;
+        baJobsContainer.classList.add("hidden");
         document.getElementById(jobCat).classList.add("color_purple");
         baJobsContainer.classList.add("hidden");
         insertIframe(jobID);
@@ -104,6 +133,7 @@ class App {
       if (!jobID && jobCat) {
         iframeContainer.classList.add("hidden");
         baJobsContainer.classList.remove("hidden");
+        document.getElementById("logos").scrollIntoView({ behavior: "smooth" });
 
         document.getElementById(jobCat).classList.add("color_purple");
         document.getElementById(jobCat + "-info").classList.remove("hidden");
