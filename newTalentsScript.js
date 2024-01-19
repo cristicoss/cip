@@ -95,7 +95,7 @@ class App {
         insertIframe(jobID);
       }
 
-      if (!jobID && jobCat) {
+      if (!jobID) {
         iframeContainer.classList.add("hidden");
         jobsContainer.classList.remove("hidden");
 
@@ -126,10 +126,6 @@ class App {
           }
         };
         displayJobs([...newTalents]);
-      }
-
-      if (!jobID && !jobCat) {
-        console.log(jobID);
       }
 
       backBtn.addEventListener("click", function () {

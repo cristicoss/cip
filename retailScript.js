@@ -128,10 +128,6 @@ class App {
         displayJobs([...retailExperts]);
       }
 
-      if (!jobID) {
-        console.log(jobID);
-      }
-
       backBtn.addEventListener("click", function () {
         window.location.href = `https://cip-new.webflow.io/retailexperts`;
       });
