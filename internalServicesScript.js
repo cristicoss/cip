@@ -19,12 +19,9 @@ createApp({
 const iframeContainer = document.querySelector(".iframe_container");
 const iframeItem = document.querySelector(".iframe_item");
 const jobsContainer = document.querySelector(".job_jobs-wrapper");
-const spontaneousWrapper = document.querySelector(".spontaneous_wrapper");
-const infoAdidas = document.querySelector(".job_info-addias");
-const infoPuma = document.querySelector(".job_info-puma");
-const infoTerrex = document.querySelector(".job_info-terrex");
+const btnSpontan = document.querySelector(".btn_purple-spontan");
 const backBtn = document.getElementById("backjobs");
-const testContainer = document.querySelector(".all-jobs-container");
+const infoContainer = document.querySelector(".info_container");
 
 jobsContainer.innerHTML = "";
 
@@ -92,6 +89,7 @@ class App {
       if (jobID) {
         iframeContainer.classList.remove("hidden");
         jobsContainer.classList.add("hidden");
+        infoContainer.classList.add("hidden");
         insertIframe(jobID);
       }
 
@@ -130,6 +128,10 @@ class App {
 
       backBtn.addEventListener("click", function () {
         window.location.href = `https://cip-new.webflow.io/internalservices`;
+      });
+
+      btnSpontan.addEventListener("click", function () {
+        window.location.href = `https://cip-new.webflow.io/internalservices/?jobid=109507`;
       });
     };
 

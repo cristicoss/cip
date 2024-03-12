@@ -20,13 +20,10 @@ const iframeContainer = document.querySelector(".iframe_container");
 const iframeItem = document.querySelector(".iframe_item");
 const baJobsContainer = document.querySelector(".bajobs_wrapper");
 
-const spontaneousWrapper = document.querySelector(".spontaneous_wrapper");
+const btnSpontan = document.querySelector(".btn_purple-spontan");
 const jobTitleWrpr = document.querySelector(".job_title-container");
-const infoAdidas = document.querySelector(".job_info-addias");
-const infoPuma = document.querySelector(".job_info-puma");
-const infoTerrex = document.querySelector(".job_info-terrex");
 const backBtn = document.getElementById("backjobs");
-const testContainer = document.querySelector(".all-jobs-container");
+const infoContainer = document.querySelector(".info_container");
 
 jobTitleWrpr.innerHTML = "";
 
@@ -126,7 +123,6 @@ class App {
           ).innerText = `ALL ADIDAS TERREX BRAND AMBASSADORS POSTIONS`;
         baJobsContainer.classList.add("hidden");
         document.getElementById(jobCat).classList.add("color_purple");
-        baJobsContainer.classList.add("hidden");
         insertIframe(jobID);
       }
 
@@ -170,14 +166,25 @@ class App {
         displayJobs([...baAdidas, ...baPuma, ...baTerrex]);
       }
 
-      if (!jobID && !jobCat) {
-        console.log(jobID, jobCat);
+      if (jobID && !jobCat) {
+        infoContainer.classList.add("hidden");
+        iframeContainer.classList.remove("hidden");
+        baJobsContainer.classList.add("hidden");
+        insertIframe(jobID);
       }
 
       backBtn.addEventListener("click", function () {
-        window.location.href = `https://cip-new.webflow.io/allbas?jobcat=${encodeURIComponent(
-          jobCat
-        )}`;
+        if (!jobCat) {
+          window.location.href = `https://cip-new.webflow.io/allbas`;
+        } else {
+          window.location.href = `https://cip-new.webflow.io/allbas?jobcat=${encodeURIComponent(
+            jobCat
+          )}`;
+        }
+      });
+
+      btnSpontan.addEventListener("click", function () {
+        window.location.href = `https://cip-new.webflow.io/allbas/?jobid=109507`;
       });
     };
 
