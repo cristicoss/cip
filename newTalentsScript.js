@@ -113,7 +113,7 @@ class App {
             jobs.forEach((job) => {
               const html = `
             <a href="${careerURL}?jobid=${job.id}" class="job_title-wrapper w-inline-block">
-              <div class="text_hl-small text_color-purple">${job.name}</div>
+              <div class="text_hl-small">${job.name}</div>
               <p class="text_job-subline">${job.employmentType} / ${job.schedule} / ${job.seniority} / ${job.office}</p>
               <div class="btn_green fix-size">
                 <div class="text_btn-green">apply now</div>
