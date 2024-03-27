@@ -97,13 +97,6 @@ class App {
         insertIframe(jobID);
       }
 
-      if (jobID) {
-        iframeContainer.classList.remove("hidden");
-        jobsContainer.classList.add("hidden");
-        infoContainer.classList.add("hidden");
-        insertIframe(jobID);
-      }
-
       if (!jobID) {
         iframeContainer.classList.add("hidden");
         jobsContainer.classList.remove("hidden");
