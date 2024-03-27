@@ -2,20 +2,6 @@
 
 "use strict";
 
-import { createApp, reactive } from "https://unpkg.com/petite-vue?module";
-
-const store = reactive({
-  isVisible: true,
-});
-
-createApp({
-  store,
-  changeVisible() {
-    store.isVisible = !store.isVisible;
-    console.log(store.isVisible);
-  },
-}).mount("#app");
-
 const iframeContainer = document.querySelector(".iframe_container");
 const iframeItem = document.querySelector(".iframe_item");
 const jobsContainer = document.querySelector(".job_jobs-wrapper");
@@ -27,16 +13,25 @@ jobsContainer.innerHTML = "";
 
 let jobID = "";
 
-document.addEventListener("DOMContentLoaded", () => {
-  const urlParams = new URLSearchParams(window.location.search);
-
-  jobID = urlParams.get("jobid");
-});
-
 const insertIframe = function (id) {
   iframeItem.insertAdjacentHTML(
     "beforeend",
-    `<iframe id="personio-iframe" style="border: none; height: 3324.3px;" src="https://cip-marketing-gmbh.jobs.personio.de/job/${id}" data-cookieconsent="marketing" width="100%" height="auto" scrolling="no"></iframe>`
+    `<iframe id="personio-iframe" style="border: none" src="https://cip-marketing-gmbh.jobs.personio.de/job/${id}" width="100%" onload="window.top.scrollTo(0,0)" scrolling="yes"></iframe>`
+  );
+
+  window.addEventListener(
+    "message",
+    function (e) {
+      var iframe = document.querySelector("#personio-iframe");
+      var eventName = e.data[0];
+      var data = e.data[1];
+      switch (eventName) {
+        case "setHeight":
+          iframe.style.height = data + "px";
+          break;
+      }
+    },
+    false
   );
 };
 
@@ -86,6 +81,22 @@ class App {
 
       getPositions(newTalents, "Young Talents", "new");
 
+      const urlParams = new URLSearchParams(window.location.search);
+      jobID = urlParams.get("jobid");
+
+      const currentURL = window.location.href;
+      let careerURL = "";
+
+      if (currentURL.includes("karriere")) {
+        careerURL = "https://cipmarketing.webflow.io/karriere/junge-talente";
+      } else careerURL = "https://cipmarketing.webflow.io/career/young-talents";
+
+      if (jobID) {
+        iframeContainer.classList.remove("hidden");
+        infoContainer.classList.add("hidden");
+        insertIframe(jobID);
+      }
+
       if (jobID) {
         iframeContainer.classList.remove("hidden");
         jobsContainer.classList.add("hidden");
@@ -101,7 +112,7 @@ class App {
           if (jobs.length > 0) {
             jobs.forEach((job) => {
               const html = `
-            <a href="https://cip-new.webflow.io/newtalents?jobid=${job.id}" class="job_title-wrapper w-inline-block">
+            <a href="${careerURL}?jobid=${job.id}" class="job_title-wrapper w-inline-block">
               <div class="text_hl-small text_color-purple">${job.name}</div>
               <p class="text_job-subline">${job.employmentType} / ${job.schedule} / ${job.seniority} / ${job.office}</p>
               <div class="btn_green fix-size">
@@ -127,11 +138,11 @@ class App {
       }
 
       backBtn.addEventListener("click", function () {
-        window.location.href = `https://cip-new.webflow.io/newtalents`;
+        window.location.href = careerURL;
       });
 
       btnSpontan.addEventListener("click", function () {
-        window.location.href = `https://cip-new.webflow.io/newtalents/?jobid=109507`;
+        window.location.href = `${careerURL}/?jobid=109507`;
       });
     };
 

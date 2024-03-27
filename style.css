@@ -1,0 +1,25 @@
+.fadein {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  display: none;
+}
+
+.fadeout {
+  display: flex;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.fadein.active {
+  display: flex;
+  opacity: 1;
+}
+
+.fadeout.active {
+  display: none;
+  opacity: 0;
+}
+
+.m-over-shrink {
+  transition: scale 0.9 ease-in-out;
+}

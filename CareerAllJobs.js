@@ -1,12 +1,10 @@
 "use strict";
 
-const container = document.getElementById("bas");
-
-class FiltersApp {
-  constructor(store) {
-    this.store = store;
-  }
-}
+const iframeContainer = document.querySelector(".iframe_container");
+const iframeItem = document.querySelector(".iframe_item");
+const spontanWrpr = document.querySelector(".spontan_wrapper");
+const allJobsWrpr = document.querySelector(".all-jobs_container");
+const btnSpontan = document.querySelector(".btn_purple-spontan");
 
 class App {
   constructor() {
@@ -36,7 +34,7 @@ class App {
       const internalServices = [];
       const creativeHub = [];
       const projectManagers = [];
-      const newTalents = [];
+      const youngTalents = [];
       const retailExperts = [];
       const spontaneousApplication = [];
 
@@ -66,8 +64,8 @@ class App {
       getPositions(baTerrex, "Brand Ambassadors Terrex", "terrex");
       getPositions(internalServices, "Internal Services", "internal");
       getPositions(creativeHub, "Creative Hub");
-      getPositions(projectManagers, "Project Manager", "pm");
-      getPositions(newTalents, "New Talents", "new");
+      getPositions(projectManagers, "Marketing & Project Management", "pm");
+      getPositions(youngTalents, "Young Talents", "new");
       getPositions(retailExperts, "Retail Experts", "retail");
       getPositions(
         spontaneousApplication,
@@ -82,16 +80,44 @@ class App {
         internalServices,
         creativeHub,
         projectManagers,
-        newTalents,
+        youngTalents,
         retailExperts,
         spontaneousApplication,
       ];
 
+      const currentURL = window.location.href;
+      let baURL = "";
+      let chURL = "";
+      let pmURL = "";
+      let retailURL = "";
+      let internalURL = "";
+      let youngURL = "";
+
+      // Check if the URL contains a specific string
+      if (currentURL.includes("karriere")) {
+        baURL = "https://cipmarketing.webflow.io/karriere/brand-ambassadors";
+        chURL = "https://cipmarketing.webflow.io/karriere/creative-hub";
+        pmURL = "https://cipmarketing.webflow.io/karriere/projekt-management";
+        retailURL = "https://cipmarketing.webflow.io/karriere/retail-experten";
+        internalURL =
+          "https://cipmarketing.webflow.io/karriere/internal-services";
+        youngURL = "https://cipmarketing.webflow.io/karriere/junge-talente";
+      } else {
+        baURL = "https://cipmarketing.webflow.io/career/brand-ambassadors";
+        chURL = "https://cipmarketing.webflow.io/career/creative-hub";
+        pmURL = "https://cipmarketing.webflow.io/career/project-management";
+        retailURL = "https://cipmarketing.webflow.io/career/retail-experts";
+        internalURL =
+          "https://cipmarketing.webflow.io/career/internal-services";
+        youngURL = "https://cipmarketing.webflow.io/career/young-talents";
+      }
+
       const displayJobs = function (...allDepartments) {
         const categoryWrapper = document.querySelectorAll(".category_wrapper");
 
-        const displayJobHTML = function (tag, jobs, title) {
+        const displayJobHTML = function (tag, jobs, title, url) {
           const jobsWrapper = tag.querySelector(".job_jobs-wrapper");
+
           // console.log(jobsWrapper);
           // console.log(tag);
           jobsWrapper.innerHTML = "";
@@ -103,18 +129,11 @@ class App {
           if (jobs.length > 0) {
             let jobCat = "";
             jobs.forEach((job) => {
-              console.log(tag.id, title, job);
               if (tag.id === title) {
                 const html = `
-              <a href="https://cip-new.webflow.io/${title.toLowerCase()}?jobid=${
-                  job.id
-                }&jobcat=${
-                  job.client
-                }" class="job_title-wrapper w-inline-block">
-                <div class="text_hl-small text_color-purple">${job.name}</div>
-                <p class="text_job-subline">${job.employmentType} / ${
-                  job.schedule
-                } / ${job.seniority} / ${job.office}</p>
+              <a href="${url}?jobid=${job.id}&jobcat=${job.client}" class="job_title-wrapper w-inline-block">
+                <div class="text_hl-small">${job.name}</div>
+                <p class="text_job-subline">${job.employmentType} / ${job.schedule} / ${job.seniority} / ${job.office}</p>
                 <div class="btn_green fix-size">
                   <div class="text_btn-green">apply now</div>
                   <img src="https://assets-global.website-files.com/5ffdee055d4cba5680f3a4a4/65324e0848491f2f0b69d051_icon_arrow.svg" loading="lazy" alt="" class="icon_arrow">
@@ -129,17 +148,22 @@ class App {
         };
 
         categoryWrapper.forEach((tag) => {
-          tag.id === "allBAs" && displayJobHTML(tag, allBAs, "allBAs");
+          tag.id === "allBAs" && displayJobHTML(tag, allBAs, "allBAs", baURL);
           tag.id === "internalServices" &&
-            displayJobHTML(tag, internalServices, "internalServices");
+            displayJobHTML(
+              tag,
+              internalServices,
+              "internalServices",
+              internalURL
+            );
           tag.id === "creativeHub" &&
-            displayJobHTML(tag, creativeHub, "creativeHub");
+            displayJobHTML(tag, creativeHub, "creativeHub", chURL);
           tag.id === "projectManagers" &&
-            displayJobHTML(tag, projectManagers, "projectManagers");
-          tag.id === "newTalents" &&
-            displayJobHTML(tag, newTalents, "newTalents");
+            displayJobHTML(tag, projectManagers, "projectManagers", pmURL);
+          tag.id === "youngTalents" &&
+            displayJobHTML(tag, youngTalents, "youngTalents", youngURL);
           tag.id === "retailExperts" &&
-            displayJobHTML(tag, retailExperts, "retailExperts");
+            displayJobHTML(tag, retailExperts, "retailExperts", retailURL);
         });
 
         // console.log(allBAs);
@@ -157,7 +181,34 @@ class App {
       */
 
       displayJobs(allDepartments);
-      console.log(creativeHub);
+
+      const insertIframe = function (id) {
+        iframeItem.insertAdjacentHTML(
+          "beforeend",
+          `<iframe id="personio-iframe" style="border: none" src="https://cip-marketing-gmbh.jobs.personio.de/job/109507" width="100%" onload="window.top.scrollTo(0,0)" scrolling="yes"></iframe>`
+        );
+
+        window.addEventListener(
+          "message",
+          function (e) {
+            var iframe = document.querySelector("#personio-iframe");
+            var eventName = e.data[0];
+            var data = e.data[1];
+            switch (eventName) {
+              case "setHeight":
+                iframe.style.height = data + "px";
+                break;
+            }
+          },
+          false
+        );
+      };
+
+      btnSpontan.addEventListener("click", function () {
+        iframeContainer.classList.remove("hidden");
+        allJobsWrpr.classList.add("hidden");
+        insertIframe();
+      });
     };
 
     // Send request

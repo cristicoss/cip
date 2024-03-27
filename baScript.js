@@ -1,20 +1,4 @@
-/// A ramas sa afisez joburile specifice categoriei. Acum le afiseaza pe toate sau pe cele de la asdidas numai. Vezi 135
-
 "use strict";
-
-import { createApp, reactive } from "https://unpkg.com/petite-vue?module";
-
-const store = reactive({
-  isVisible: true,
-});
-
-createApp({
-  store,
-  changeVisible() {
-    store.isVisible = !store.isVisible;
-    console.log(store.isVisible);
-  },
-}).mount("#app");
 
 const iframeContainer = document.querySelector(".iframe_container");
 const iframeItem = document.querySelector(".iframe_item");
@@ -29,28 +13,28 @@ jobTitleWrpr.innerHTML = "";
 
 const baBtn = document.querySelectorAll(".ba_logo-btn");
 
-baBtn.forEach((btn) => {
-  btn.addEventListener("click", function (e) {
-    window.location.href = `https://cip-new.webflow.io/allbas?jobcat=${encodeURIComponent(
-      e.target.id
-    )}`;
-  });
-});
-
 let jobID = "";
 let jobCat = "";
-
-document.addEventListener("DOMContentLoaded", () => {
-  const urlParams = new URLSearchParams(window.location.search);
-
-  jobID = urlParams.get("jobid");
-  jobCat = urlParams.get("jobcat");
-});
 
 const insertIframe = function (id) {
   iframeItem.insertAdjacentHTML(
     "beforeend",
-    `<iframe id="personio-iframe" style="border: none; height: 3324.3px;" src="https://cip-marketing-gmbh.jobs.personio.de/job/${id}" data-cookieconsent="marketing" width="100%" height="auto" scrolling="no"></iframe>`
+    `<iframe id="personio-iframe" style="border: none" src="https://cip-marketing-gmbh.jobs.personio.de/job/${id}" width="100%" onload="window.top.scrollTo(0,0)" scrolling="yes"></iframe>`
+  );
+
+  window.addEventListener(
+    "message",
+    function (e) {
+      var iframe = document.querySelector("#personio-iframe");
+      var eventName = e.data[0];
+      var data = e.data[1];
+      switch (eventName) {
+        case "setHeight":
+          iframe.style.height = data + "px";
+          break;
+      }
+    },
+    false
   );
 };
 
@@ -105,6 +89,28 @@ class App {
       getPositions(baPuma, "Brand Ambassadors PUMA", "puma");
       getPositions(baTerrex, "Brand Ambassadors Terrex", "terrex");
 
+      const urlParams = new URLSearchParams(window.location.search);
+
+      jobID = urlParams.get("jobid");
+      jobCat = urlParams.get("jobcat");
+
+      const currentURL = window.location.href;
+      let careerURL = "";
+
+      if (currentURL.includes("karriere")) {
+        careerURL =
+          "https://cipmarketing.webflow.io/karriere/brand-ambassadors";
+      } else
+        careerURL = "https://cipmarketing.webflow.io/career/brand-ambassadors";
+
+      baBtn.forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          window.location.href = `${careerURL}?jobcat=${encodeURIComponent(
+            e.target.id
+          )}`;
+        });
+      });
+
       if (jobID && jobCat) {
         iframeContainer.classList.remove("hidden");
         document.getElementById("logos").scrollIntoView({ behavior: "smooth" });
@@ -122,27 +128,26 @@ class App {
             ".text_btn-purple"
           ).innerText = `ALL ADIDAS TERREX BRAND AMBASSADORS POSTIONS`;
         baJobsContainer.classList.add("hidden");
+        infoContainer.classList.add("hidden");
         document.getElementById(jobCat).classList.add("color_purple");
         insertIframe(jobID);
       }
 
       if (!jobID && jobCat) {
         iframeContainer.classList.add("hidden");
+        infoContainer.classList.remove("hidden");
         baJobsContainer.classList.remove("hidden");
         document.getElementById("logos").scrollIntoView({ behavior: "smooth" });
 
         document.getElementById(jobCat).classList.add("color_purple");
         document.getElementById(jobCat + "-info").classList.remove("hidden");
         const displayJobs = function (jobs) {
-          console.log(jobCat);
           const filteredJobs = jobs.filter((job) => job.client === jobCat);
           if (filteredJobs.length > 0) {
             filteredJobs.forEach((job) => {
-              console.log(job.client, jobCat);
-
               const html = `
-            <a href="https://cip-new.webflow.io/allbas?jobid=${job.id}&jobcat=${jobCat}" class="job_title-wrapper w-inline-block">
-              <div class="text_hl-small text_color-purple">${job.name}</div>
+            <a href="${careerURL}?jobid=${job.id}&jobcat=${jobCat}" class="job_title-wrapper w-inline-block">
+              <div class="text_hl-small">${job.name}</div>
               <p class="text_job-subline">${job.employmentType} / ${job.schedule} / ${job.seniority} / ${job.office}</p>
               <div class="btn_green fix-size">
                 <div class="text_btn-green">apply now</div>
@@ -175,16 +180,16 @@ class App {
 
       backBtn.addEventListener("click", function () {
         if (!jobCat) {
-          window.location.href = `https://cip-new.webflow.io/allbas`;
+          window.location.href = careerURL;
         } else {
-          window.location.href = `https://cip-new.webflow.io/allbas?jobcat=${encodeURIComponent(
+          window.location.href = `${careerURL}?jobcat=${encodeURIComponent(
             jobCat
           )}`;
         }
       });
 
       btnSpontan.addEventListener("click", function () {
-        window.location.href = `https://cip-new.webflow.io/allbas/?jobid=109507`;
+        window.location.href = `${careerURL}/?jobid=109507`;
       });
     };
 
