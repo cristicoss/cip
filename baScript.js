@@ -19,7 +19,7 @@ let jobCat = "";
 const insertIframe = function (id) {
   iframeItem.insertAdjacentHTML(
     "beforeend",
-    `<iframe id="personio-iframe" style="border: none" src="https://cip-marketing-gmbh.jobs.personio.de/job/${id}" width="100%" onload="window.top.scrollTo(0,0)" scrolling="yes"></iframe>`
+    `<iframe id="personio-iframe" style="border: none" src="https://cip-marketing-gmbh.jobs.personio.de/job/${id}" width="100%" scrolling="yes"></iframe>`
   );
 
   window.addEventListener(
