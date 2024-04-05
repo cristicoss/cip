@@ -131,12 +131,22 @@ class App {
             jobs.forEach((job) => {
               if (tag.id === title) {
                 const html = `
-              <a href="${url}?jobid=${job.id}&jobcat=${job.client}" class="job_title-wrapper w-inline-block">
+              <a href="${url}?jobid=${job.id}&jobcat=${
+                  job.client
+                }" class="job_title-wrapper w-inline-block">
                 <div class="text_hl-small">${job.name}</div>
-                <p class="text_job-subline">${job.employmentType} / ${job.schedule} / ${job.seniority} / ${job.office}</p>
-                <div class="btn_green fix-size">
-                  <div class="text_btn-green">Jetzt bewerben</div>
+                <p class="text_job-subline">${job.employmentType} / ${
+                  job.schedule
+                } / ${job.seniority} / ${job.office}</p>
+                <div class="btn-green_wrapper">
+                <div class="btn_green">
+                  <div class="text_btn-green">${
+                    careerURL.includes("karriere")
+                      ? "Jetzt bewerben"
+                      : "Apply now"
+                  }</div>
                   <img src="https://assets-global.website-files.com/5ffdee055d4cba5680f3a4a4/65324e0848491f2f0b69d051_icon_arrow.svg" loading="lazy" alt="" class="icon_arrow">
+                </div>
                 </div>
                 </a>
 
