@@ -120,10 +120,11 @@ class App {
           } else {
             const html = `
             <a href="#" class="job_title-wrapper w-inline-block">
-              <div class="text_hl-small text_color-purple">${(careerURL =
-                "https://cipmarketing.webflow.io/karriere/creative-hub"
+              <div class="text_hl-small text_color-purple">${
+                careerURL.includes("karriere")
                   ? "Leider gibt es derzeit keine offenen Stellen in diesem Team. Melde Dich unten für unseren Job-Newsletter an oder schicke uns deine Initiativbewerbung."
-                  : "Unfortunately there are no current job openings in this team. Sign up for our Jobs Newsletter below or send us your spontaneous application.")}</div>
+                  : "Unfortunately there are no current job openings in this team. Sign up for our Jobs Newsletter below or send us your spontaneous application."
+              }</div>
               </a>
 
           `;
