@@ -105,12 +105,22 @@ class App {
           if (jobs.length > 0) {
             jobs.forEach((job) => {
               const html = `
-            <a href="${careerURL}?jobid=${job.id}" class="job_title-wrapper w-inline-block">
+            <a href="${careerURL}?jobid=${
+                job.id
+              }" class="job_title-wrapper w-inline-block">
               <div class="text_hl-small">${job.name}</div>
-              <p class="text_job-subline">${job.employmentType} / ${job.schedule} / ${job.seniority} / ${job.office}</p>
-              <div class="btn_green fix-size">
-                <div class="text_btn-green">apply now</div>
+              <p class="text_job-subline">${job.employmentType} / ${
+                job.schedule
+              } / ${job.seniority} / ${job.office}</p>
+              <div class="btn-green_wrapper">
+              <div class="btn_green">
+                <div class="text_btn-green">${
+                  currentURL.includes("karriere")
+                    ? "Jetzt bewerben"
+                    : "Apply now"
+                }</div>
                 <img src="https://assets-global.website-files.com/5ffdee055d4cba5680f3a4a4/65324e0848491f2f0b69d051_icon_arrow.svg" loading="lazy" alt="" class="icon_arrow">
+              </div>
               </div>
               </a>
 
@@ -121,7 +131,7 @@ class App {
             const html = `
             <a href="#" class="job_title-wrapper w-inline-block">
               <div class="text_hl-small text_color-purple">${
-                careerURL.includes("karriere")
+                currentURL.includes("karriere")
                   ? "Leider gibt es derzeit keine offenen Stellen in diesem Team. Melde Dich unten für unseren Job-Newsletter an oder schicke uns deine Initiativbewerbung."
                   : "Unfortunately there are no current job openings in this team. Sign up for our Jobs Newsletter below or send us your spontaneous application."
               }</div>
