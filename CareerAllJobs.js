@@ -141,7 +141,7 @@ class App {
                 <div class="btn-green_wrapper">
                 <div class="btn_green">
                   <div class="text_btn-green">${
-                    careerURL.includes("karriere")
+                    currentURL.includes("karriere")
                       ? "Jetzt bewerben"
                       : "Apply now"
                   }</div>
