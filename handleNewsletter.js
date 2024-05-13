@@ -5,9 +5,9 @@ const radio2 = document.getElementById("radio2");
 const permanentForm = document.querySelector(".permanent-form_wrapper");
 const baForm = document.querySelector(".ba-form_wrapper");
 const accept = document.querySelector(".job-alert_checkbox-wrapper");
-const successNews = document.querySelector(".success-news_container");
-const titleNews = document.querySelector(".title-news_container");
+const textNews = document.querySelector(".text_jobalert");
 const formContainer = document.querySelector(".popup_form-container");
+formContainer.classList.remove("w-form");
 
 // const formNews = document.querySelector(".popup_form-container");
 const formNews = document.getElementById("wf-form-Name");
@@ -18,6 +18,8 @@ const experienceNews = document.getElementById("Erfahrung-2");
 const placeNews = document.getElementById("Ort-2");
 
 let employmentType = "";
+
+const currentURL = window.location.href;
 
 radio1.addEventListener("click", function () {
   employmentType = "employment";
@@ -37,9 +39,9 @@ radio2.addEventListener("click", function () {
 });
 
 /// SUPABASE INIT ///
-const supabaseUrl = "https://zffxtqoaghcuwpnslgth.supabase.co";
+const supabaseUrl = "https://znopuftozmimygdlnmla.supabase.co";
 const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmZnh0cW9hZ2hjdXdwbnNsZ3RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTEzNjM4NzIsImV4cCI6MjAyNjkzOTg3Mn0.PUC3EpGYrLV8ZMKFu428qErvYRV7GtBlf4WfWHJrs-k";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpub3B1ZnRvem1pbXlnZGxubWxhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU1OTgyMDIsImV4cCI6MjAzMTE3NDIwMn0.9j1qD94PLynyvHktFMj7w2taLPZK7NkUO70oiVPZxk4";
 
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
@@ -58,7 +60,7 @@ formNews.addEventListener("submit", function (event) {
   const insertRow = async () => {
     if (employmentType === "employment") {
       const { data, error } = await supabase
-        .from("newsletter-employment")
+        .from("newsletter_employment")
         .insert([
           {
             email: emailNews.value,
@@ -72,12 +74,13 @@ formNews.addEventListener("submit", function (event) {
         console.error(error);
       } else {
         console.log("success");
-        successNews.classList.remove("hidden");
-        titleNews.classList.add("hidden");
+        textNews.innerHTML = currentURL.includes("karriere")
+          ? "Vielen Dank fürs Abonnieren.<br />Sie können jetzt dieses Fenster schließen.<br /><br />"
+          : "Thank you for subscribing.<br />You can now close this window.<br /><br />";
         formContainer.classList.add("hidden");
       }
     } else {
-      const { data, error } = await supabase.from("newsletter-BAs").insert([
+      const { data, error } = await supabase.from("newsletter_bas").insert([
         {
           email: emailNews.value,
           name: nameNews.value,
@@ -89,8 +92,9 @@ formNews.addEventListener("submit", function (event) {
         console.error(error);
       } else {
         console.log("success");
-        successNews.classList.remove("hidden");
-        titleNews.classList.add("hidden");
+        textNews.innerHTML = currentURL.includes("karriere")
+          ? "Vielen Dank fürs Abonnieren.<br />Sie können jetzt dieses Fenster schließen.<br /><br />"
+          : "Thank you for subscribing.<br />You can now close this window.<br /><br />";
         formContainer.classList.add("hidden");
       }
     }
