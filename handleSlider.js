@@ -9,7 +9,10 @@ sliderContainer.classList.remove("hidden");
 const arrowLeft = document.querySelector(".slider-arrow_left");
 const arrowRight = document.querySelector(".slider-arrow_right");
 
-console.log(allThumbs);
+const videoBody = document.querySelector(".video_body");
+const qnadaContainer = document.querySelector(".qnada_container");
+const thumbBtn = document.querySelectorAll(".BA-thumb_wrapper");
+const closeVideoBtn = document.querySelector(".close-video_btn");
 
 const rect1 = sliderWrapper.getBoundingClientRect();
 const rect2 = thumbsContainer.getBoundingClientRect();
@@ -18,9 +21,7 @@ const sliderWidth = rect1.width;
 const thumbsWidth = rect2.width;
 
 let move = 0;
-
-console.log("sliderWidth:", sliderWidth);
-console.log("thumbsWidth:", thumbsWidth);
+let html = ``;
 
 thumbsContainer.style.transition = "transform 0.3s ease-in-out";
 
@@ -36,11 +37,28 @@ arrowRight.addEventListener("click", function () {
 });
 
 arrowLeft.addEventListener("click", function () {
-  if (-move < 0 && -move >= -sliderWidth) {
+  if (-move === 0 && -move >= -sliderWidth) {
     thumbsContainer.style.transform = `translateX(${0}px)`;
   } else {
     move = move + sliderWidth;
     thumbsContainer.style.transform = `translateX(${move}px)`;
   }
-  console.log(move, thumbsWidth, sliderWidth);
+});
+
+allThumbs.forEach((thumb) =>
+  thumb.addEventListener("click", function () {
+    qnadaContainer.classList.remove("hidden");
+    const videoUrl = thumb.dataset.atr;
+    html = `<video width="100%" height="100%" autoplay>
+    <source src="${videoUrl}">
+  Your browser does not support the video tag.
+  </video>`;
+
+    videoBody.innerHTML = html;
+  })
+);
+
+closeVideoBtn.addEventListener("click", function () {
+  qnadaContainer.classList.add("hidden");
+  videoBody.innerHTML = "";
 });
