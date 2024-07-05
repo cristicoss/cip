@@ -40,6 +40,7 @@ class App {
 
       const getPositions = function (department, description, client) {
         data.forEach((data) => {
+          console.log(data);
           const position = data.getElementsByTagName("department")[0];
           if (position && position.textContent === description) {
             // console.log(data);
@@ -129,6 +130,18 @@ class App {
           if (jobs.length > 0) {
             let jobCat = "";
             jobs.forEach((job) => {
+              if (job.name.includes("Deutsch")) console.log("yes");
+
+              function removeWord(str, word) {
+                // Split the string into an array of words
+                let words = str.split(" ");
+                // Filter out the word to remove
+                let filteredWords = words.filter((w) => w !== word);
+                // Join the array back into a string
+                job.name = filteredWords.join(" ");
+              }
+              removeWord(job.name, "Deutsch");
+
               if (tag.id === title) {
                 const html = `
               <a href="${url}?jobid=${job.id}&jobcat=${

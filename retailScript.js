@@ -63,7 +63,21 @@ class App {
         data.forEach((data) => {
           const position = data.getElementsByTagName("department")[0];
           if (position && position.textContent === description) {
-            // console.log(data);
+            console.log(data.getElementsByTagName("name")[0].textContent);
+
+            function removeWord(str, word) {
+              // Split the string into an array of words
+              let words = str.split(" ");
+              // Filter out the word to remove
+              let filteredWords = words.filter((w) => w !== word);
+              // Join the array back into a string
+              data.getElementsByTagName("name")[0].textContent =
+                filteredWords.join(" ");
+            }
+            removeWord(
+              data.getElementsByTagName("name")[0].textContent,
+              "Deutsch"
+            );
 
             department.push({
               id: data.getElementsByTagName("id")[0].textContent,
