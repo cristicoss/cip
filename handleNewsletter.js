@@ -39,9 +39,9 @@ radio2.addEventListener("click", function () {
 });
 
 /// SUPABASE INIT ///
-const supabaseUrl = "https://znopuftozmimygdlnmla.supabase.co";
+const supabaseUrl = "https://zffxtqoaghcuwpnslgth.supabase.co";
 const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpub3B1ZnRvem1pbXlnZGxubWxhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU1OTgyMDIsImV4cCI6MjAzMTE3NDIwMn0.9j1qD94PLynyvHktFMj7w2taLPZK7NkUO70oiVPZxk4";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmZnh0cW9hZ2hjdXdwbnNsZ3RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTEzNjM4NzIsImV4cCI6MjAyNjkzOTg3Mn0.PUC3EpGYrLV8ZMKFu428qErvYRV7GtBlf4WfWHJrs-k";
 
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
@@ -60,7 +60,7 @@ formNews.addEventListener("submit", function (event) {
   const insertRow = async () => {
     if (employmentType === "employment") {
       const { data, error } = await supabase
-        .from("newsletter_employment")
+        .from("newsletter-employment")
         .insert([
           {
             email: emailNews.value,
@@ -80,7 +80,7 @@ formNews.addEventListener("submit", function (event) {
         formContainer.classList.add("hidden");
       }
     } else {
-      const { data, error } = await supabase.from("newsletter_bas").insert([
+      const { data, error } = await supabase.from("newsletter-BAs").insert([
         {
           email: emailNews.value,
           name: nameNews.value,
