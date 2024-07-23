@@ -40,7 +40,6 @@ class App {
 
       const getPositions = function (department, description, client) {
         data.forEach((data) => {
-          console.log(data);
           const position = data.getElementsByTagName("department")[0];
           if (position && position.textContent === description) {
             // console.log(data);
@@ -59,10 +58,13 @@ class App {
           }
         });
       };
-
       getPositions(baAdidas, "Brand Ambassadors adidas", "adidas");
       getPositions(baPuma, "Brand Ambassadors PUMA", "puma");
-      getPositions(baTerrex, "Brand Ambassadors Terrex", "terrex");
+      getPositions(
+        baTerrex,
+        "Brand Ambassadors adidas Outdoor/Terrex",
+        "terrex"
+      );
       getPositions(internalServices, "Internal Services", "internal");
       getPositions(creativeHub, "Creative Hub");
       getPositions(projectManagers, "Marketing & Project Management", "pm");
@@ -75,6 +77,7 @@ class App {
       );
 
       const allBAs = [...baAdidas, ...baPuma, ...baTerrex];
+      console.log(spontaneousApplication);
 
       const allDepartments = [
         allBAs,
@@ -96,21 +99,20 @@ class App {
 
       // Check if the URL contains a specific string
       if (currentURL.includes("karriere")) {
-        baURL = "https://cipmarketing.webflow.io/karriere/brand-ambassadors";
-        chURL = "https://cipmarketing.webflow.io/karriere/creative-hub";
-        pmURL = "https://cipmarketing.webflow.io/karriere/projekt-management";
-        retailURL = "https://cipmarketing.webflow.io/karriere/retail-experten";
+        baURL = "https://www.cip-marketing.com/karriere/brand-ambassadors";
+        chURL = "https://www.cip-marketing.com/karriere/creative-hub";
+        pmURL = "https://www.cip-marketing.com/karriere/projekt-management";
+        retailURL = "https://www.cip-marketing.com/karriere/retail-experten";
         internalURL =
-          "https://cipmarketing.webflow.io/karriere/internal-services";
-        youngURL = "https://cipmarketing.webflow.io/karriere/junge-talente";
+          "https://www.cip-marketing.com/karriere/internal-services";
+        youngURL = "https://www.cip-marketing.com/karriere/junge-talente";
       } else {
-        baURL = "https://cipmarketing.webflow.io/career/brand-ambassadors";
-        chURL = "https://cipmarketing.webflow.io/career/creative-hub";
-        pmURL = "https://cipmarketing.webflow.io/career/project-management";
-        retailURL = "https://cipmarketing.webflow.io/career/retail-experts";
-        internalURL =
-          "https://cipmarketing.webflow.io/career/internal-services";
-        youngURL = "https://cipmarketing.webflow.io/career/young-talents";
+        baURL = "https://www.cip-marketing.com/career/brand-ambassadors";
+        chURL = "https://www.cip-marketing.com/career/creative-hub";
+        pmURL = "https://www.cip-marketing.com/career/project-management";
+        retailURL = "https://www.cip-marketing.com/career/retail-experts";
+        internalURL = "https://www.cip-marketing.com/career/internal-services";
+        youngURL = "https://www.cip-marketing.com/career/young-talents";
       }
 
       const displayJobs = function (...allDepartments) {

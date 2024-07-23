@@ -88,10 +88,9 @@ class App {
       let careerURL = "";
 
       if (currentURL.includes("karriere")) {
-        careerURL =
-          "https://cipmarketing.webflow.io/karriere/internal-services";
+        careerURL = "https://www.cip-marketing.com/karriere/internal-services";
       } else
-        careerURL = "https://cipmarketing.webflow.io/career/internal-services";
+        careerURL = "https://www.cip-marketing.com/career/internal-services";
 
       if (jobID) {
         iframeContainer.classList.remove("hidden");

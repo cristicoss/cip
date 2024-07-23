@@ -19,7 +19,7 @@ let jobCat = "";
 const insertIframe = function (id) {
   iframeItem.insertAdjacentHTML(
     "beforeend",
-    `<iframe id="personio-iframe" style="border: none" src="https://cip-marketing-gmbh.jobs.personio.de/job/${id}" width="100%" scrolling="yes"></iframe>`
+    `<iframe id="personio-iframe" style="border: none" src="https://cip-marketing-gmbh.jobs.personio.de/job/${id}?language=en&display=en" width="100%" scrolling="yes"></iframe>`
   );
 
   window.addEventListener(
@@ -87,7 +87,11 @@ class App {
 
       getPositions(baAdidas, "Brand Ambassadors adidas", "adidas");
       getPositions(baPuma, "Brand Ambassadors PUMA", "puma");
-      getPositions(baTerrex, "Brand Ambassadors Terrex", "terrex");
+      getPositions(
+        baTerrex,
+        "Brand Ambassadors adidas Outdoor/Terrex",
+        "terrex"
+      );
 
       const urlParams = new URLSearchParams(window.location.search);
 
@@ -98,10 +102,9 @@ class App {
       let careerURL = "";
 
       if (currentURL.includes("karriere")) {
-        careerURL =
-          "https://cipmarketing.webflow.io/karriere/brand-ambassadors";
+        careerURL = "https://www.cip-marketing.com/karriere/brand-ambassadors";
       } else
-        careerURL = "https://cipmarketing.webflow.io/career/brand-ambassadors";
+        careerURL = "https://www.cip-marketing.com/career/brand-ambassadors";
 
       baBtn.forEach((btn) => {
         btn.addEventListener("click", function (e) {

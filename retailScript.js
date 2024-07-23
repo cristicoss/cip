@@ -102,9 +102,8 @@ class App {
       let careerURL = "";
 
       if (currentURL.includes("karriere")) {
-        careerURL = "https://cipmarketing.webflow.io/karriere/retail-experten";
-      } else
-        careerURL = "https://cipmarketing.webflow.io/career/retail-experts";
+        careerURL = "https://www.cip-marketing.com/karriere/retail-experten";
+      } else careerURL = "https://www.cip-marketing.com/career/retail-experts";
 
       if (jobID) {
         iframeContainer.classList.remove("hidden");
