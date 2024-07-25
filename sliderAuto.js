@@ -1,6 +1,8 @@
 "use strict";
 const cardsHolder = document.querySelectorAll(".swipe_cards-1");
 const cardsHolder2 = document.querySelectorAll(".swipe_cards-2");
+const cardsHolder3 = document.querySelectorAll(".swipe_cards-3");
+const cardsHolder4 = document.querySelectorAll(".swipe_cards-4");
 let currIndex = 1;
 
 /*
@@ -19,7 +21,8 @@ function showNext() {
 */
 
 const showImgs = function (cards) {
-  console.log("change");
+  if (!cards) return;
+
   cards.forEach((card) => {
     card.classList.add("active");
   });
@@ -35,6 +38,11 @@ setInterval(() => {
 setInterval(() => {
   showImgs(cardsHolder2);
 }, 2000);
-// setInterval(showImgs(cardsHolder), 3000);
 
-// setInterval(showNext, 3000);
+setInterval(() => {
+  showImgs(cardsHolder3);
+}, 2000);
+
+setInterval(() => {
+  showImgs(cardsHolder4);
+}, 2000);
