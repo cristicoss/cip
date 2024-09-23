@@ -77,7 +77,7 @@ class App {
       );
 
       const allBAs = [...baAdidas, ...baPuma, ...baTerrex];
-      console.log(spontaneousApplication);
+      console.log(youngTalents);
 
       const allDepartments = [
         allBAs,

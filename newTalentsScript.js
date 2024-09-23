@@ -80,6 +80,7 @@ class App {
       };
 
       getPositions(newTalents, "Young Talents", "new");
+      console.log(newTalents);
 
       const urlParams = new URLSearchParams(window.location.search);
       jobID = urlParams.get("jobid");
