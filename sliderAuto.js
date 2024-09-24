@@ -1,8 +1,8 @@
 "use strict";
-const cardsHolder = document.querySelectorAll(".swipe_cards-1");
-const cardsHolder2 = document.querySelectorAll(".swipe_cards-2");
-const cardsHolder3 = document.querySelectorAll(".swipe_cards-3");
-const cardsHolder4 = document.querySelectorAll(".swipe_cards-4");
+const cardsHolder = document.querySelectorAll(".studio-cards-setup");
+const cardsHolder2 = document.querySelectorAll(".studio-cards-services");
+const cardsHolder3 = document.querySelectorAll(".studio-cards-equipment");
+const cardsHolder4 = document.querySelectorAll(".studio-cards-freedom");
 let currIndex = 1;
 
 /*
