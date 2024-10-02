@@ -1,47 +1,61 @@
 "use strict";
 
-const cardsHolder = document.querySelectorAll(".studio-cards-setup");
-const cardsHolder2 = document.querySelectorAll(".studio-cards-services");
-const cardsHolder3 = document.querySelectorAll(".studio-cards-equipment");
-let currIndex = 0;
-
-const allCardHolders = [cardsHolder, cardsHolder2, cardsHolder3];
+// Select all parent divs with the class "studio_img-container" and add video elements with class "video1" and "video2"
+const parentContainers = document.querySelectorAll(".studio_img-container");
+const videos = document.querySelectorAll(".video1, .video2");
 
 // Store the interval IDs for each section so we can clear them
 let intervalIds = {};
 
-// Function to animate images for a specific section
-const showImgs = function (cards) {
-  if (!cards) return;
-
-  cards.forEach((card) => {
-    card.classList.add("active");
-  });
-  cards[currIndex].classList.remove("active");
-  currIndex++;
-  if (currIndex === 2) currIndex = 0;
-};
-
 // Variable to store the previously closest section
 let previousClosestSection = null;
+
+let currIndex = 0;
+
+// Function to animate images for a specific section
+const showImgs = function (cards) {
+  if (!cards || cards.length === 0) return; // Ensure cards exist and are not empty
+
+  cards.forEach((card) => {
+    if (card) {
+      // Ensure each card exists before accessing its classList
+      card.classList.add("active");
+    }
+  });
+
+  if (cards[currIndex]) {
+    cards[currIndex].classList.remove("active");
+  }
+
+  currIndex++;
+  if (currIndex >= cards.length) currIndex = 0;
+};
+
+// Function to get the siblings of an element
+function getSiblings(element) {
+  const parent = element.parentNode;
+  if (!parent) return []; // Ensure the element has a parent
+
+  const allChildren = Array.from(parent.children);
+  return allChildren.filter((child) => child !== element && child); // Filter out undefined children
+}
 
 // Function to determine which section is closest to the center of the viewport
 const getClosestSection = () => {
   let closestSection = null;
   let minDistance = Infinity;
 
-  allCardHolders.forEach((holder) => {
-    // We assume the first element in each card holder group is representative of the section
-    const card = holder[0];
-    if (card) {
-      const cardBounds = card.getBoundingClientRect();
+  parentContainers.forEach((container) => {
+    const firstCard = container.children[0] || container; // If container is a video, it doesn't have children
+    if (firstCard) {
+      const cardBounds = firstCard.getBoundingClientRect();
       const cardCenter = cardBounds.top + cardBounds.height / 2;
       const viewportCenter = window.innerHeight / 2;
       const distanceToCenter = Math.abs(viewportCenter - cardCenter);
 
       if (distanceToCenter < minDistance) {
         minDistance = distanceToCenter;
-        closestSection = card;
+        closestSection = firstCard;
       }
     }
   });
@@ -51,11 +65,9 @@ const getClosestSection = () => {
     // Stop the animations for all sections before starting a new one
     stopAllAnimations();
 
-    // Get siblings of the closest section (for animation purposes)
-    function getSiblings(element) {
-      const parent = element.parentNode;
-      const allChildren = Array.from(parent.children);
-      return allChildren.filter((child) => child !== element);
+    // If the closest section is a video element, don't run image animations
+    if (closestSection.tagName === "VIDEO") {
+      return; // The IntersectionObserver will handle video playback
     }
 
     const siblings = [closestSection, ...getSiblings(closestSection)];
@@ -77,12 +89,15 @@ const getClosestSection = () => {
 };
 
 // Function to stop all animations (clear intervals)
-const stopAllAnimations = () => {
-  // Loop through all interval IDs and clear them
+const stopAllAnimations = (entries) => {
+  if (entries) {
+    entries.forEach((entry) => {
+      entry.target.pause();
+    });
+  }
   for (let section in intervalIds) {
     clearInterval(intervalIds[section]);
   }
-  // Reset the intervalIds object
   intervalIds = {};
 };
 
@@ -91,32 +106,57 @@ window.addEventListener("scroll", () => {
   getClosestSection();
 });
 
-/*
-const showImgs = function (cards) {
-  if (!cards) return;
-  console.log(cards);
-
-  cards.forEach((card) => {
-    card.classList.add("active");
+// Set up IntersectionObserver to trigger video play/pause based on scroll
+const playVideo = (entries, observer) => {
+  stopAllAnimations(entries);
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const video = entry.target;
+      video
+        .play()
+        .then(() => {})
+        .catch((error) => {
+          console.error(`Failed to play video: ${error}`);
+        });
+    } else {
+      // Pause the video when it's out of view
+      entry.target.pause();
+    }
   });
-  cards[currIndex].classList.remove("active");
-  currIndex++;
-  if (currIndex === 3) currIndex = 0;
 };
 
-setInterval(() => {
-  showImgs(cardsHolder);
-}, 2000);
+// Set up the IntersectionObserver with options
+const observerOptions = {
+  threshold: 0.5, // Trigger when 50% of the video is visible
+};
 
-setInterval(() => {
-  showImgs(cardsHolder2);
-}, 2000);
+const observer = new IntersectionObserver(playVideo, observerOptions);
 
-setInterval(() => {
-  showImgs(cardsHolder3);
-}, 2000);
+// Observe each video element
+videos.forEach((video) => {
+  observer.observe(video);
+});
 
-setInterval(() => {
-  showImgs(cardsHolder4);
-}, 2000);
-*/
+const map = L.map("map").setView([49.504, 11.008], 13); // Set to London as an example
+
+// Add the default OpenStreetMap tiles
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(map);
+
+const customIcon = L.icon({
+  iconUrl:
+    "https://cdn.prod.website-files.com/5ffdee055d4cba5680f3a4a4/66fd60b49ab530cb38b95a3f_map-bullet.png", // URL of your custom pin
+  iconSize: [30, 30], // Size of the icon
+  iconAnchor: [15, 15], // Anchor the icon's tip to its lat/lng
+  popupAnchor: [0, 0], // Where the popup opens from the icon
+});
+
+// Add the custom marker to the map
+L.marker([49.50453, 11.00825], {
+  icon: customIcon,
+})
+  .addTo(map)
+  .bindPopup("CIP CREATIVE STUDIO")
+  .openPopup();
