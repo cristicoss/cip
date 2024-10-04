@@ -2,7 +2,7 @@
 
 // Select all parent divs with the class "studio_img-container" and add video elements with class "video1" and "video2"
 const parentContainers = document.querySelectorAll(".studio_img-container");
-const videos = document.querySelectorAll(".video1, .video2");
+const videos = document.querySelectorAll(".video1, .video1b");
 
 // Store the interval IDs for each section so we can clear them
 let intervalIds = {};
