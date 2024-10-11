@@ -5,6 +5,9 @@ const iframeItem = document.querySelector(".iframe_item");
 const spontanWrpr = document.querySelector(".spontan_wrapper");
 const allJobsWrpr = document.querySelector(".all-jobs_container");
 const btnSpontan = document.querySelector(".btn_purple-spontan");
+const errMsg = document.getElementById("error-msg");
+const categoryWrapper = document.querySelectorAll(".category_wrapper");
+const currentURL = window.location.href;
 
 class App {
   constructor() {
@@ -27,6 +30,17 @@ class App {
       const xmlDoc = await parser.parseFromString(request.response, "text/xml");
       // console.log(xmlDoc);
       const data = [...xmlDoc.getElementsByTagName("position")];
+
+      if (!data) {
+        const msg = currentURL.includes("career")
+          ? "We're having trouble fetching the job list. Please refresh the page or try again later."
+          : "Wir haben Probleme beim Abrufen der Stellenanzeigen. Bitte aktualisiere die Seite oder versuche es später noch einmal.";
+
+        errMsg.innerHTML = msg;
+        categoryWrapper.forEach((category) => {
+          category.classList.add("hidden");
+        });
+      }
 
       const baAdidas = [];
       const baPuma = [];
@@ -77,7 +91,6 @@ class App {
       );
 
       const allBAs = [...baAdidas, ...baPuma, ...baTerrex];
-      console.log(youngTalents);
 
       const allDepartments = [
         allBAs,
@@ -89,7 +102,7 @@ class App {
         spontaneousApplication,
       ];
 
-      const currentURL = window.location.href;
+      // const currentURL = window.location.href;
       let baURL = "";
       let chURL = "";
       let pmURL = "";
