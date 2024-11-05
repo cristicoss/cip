@@ -4,7 +4,7 @@ const allThumbs = document.querySelectorAll(".slider-thumb_container");
 const sliderContainer = document.querySelector(".slider_container");
 const sliderWrapper = document.querySelector(".ba-slider_wrapper");
 const thumbsContainer = document.querySelector(".thumbs_container");
-sliderContainer.classList.remove("hidden");
+// sliderContainer.classList.remove("hidden");
 
 const arrowLeft = document.querySelector(".slider-arrow_left");
 const arrowRight = document.querySelector(".slider-arrow_right");

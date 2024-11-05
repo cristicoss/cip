@@ -15,6 +15,7 @@ const baBtn = document.querySelectorAll(".ba_logo-btn");
 
 let jobID = "";
 let jobCat = "";
+const currentURL = window.location.href;
 
 const insertIframe = function (id) {
   iframeItem.insertAdjacentHTML(
@@ -48,7 +49,7 @@ class App {
 
     request.open(
       "GET",
-      "https://cip-marketing-gmbh.jobs.personio.de/xml",
+      "https://cip-marketing-gmbh.jobs.personio.de/xml?language=de",
       true
     );
 
@@ -59,6 +60,7 @@ class App {
       const xmlDoc = await parser.parseFromString(request.response, "text/xml");
       // console.log(xmlDoc);
       const data = [...xmlDoc.getElementsByTagName("position")];
+      console.log(data);
 
       const baAdidas = [];
       const baPuma = [];
@@ -118,18 +120,27 @@ class App {
         iframeContainer.classList.remove("hidden");
         document.getElementById("logos").scrollIntoView({ behavior: "smooth" });
 
-        if (jobCat == "adidas")
+        if (jobCat == "adidas") {
           backBtn.querySelector(
             ".text_btn-purple"
           ).innerText = `ALL ADIDAS BRAND AMBASSADORS POSTIONS`;
-        if (jobCat == "puma")
+          baBtn.adidas.classList.remove("color_purple");
+          baBtn.adidas.classList.add("color_purple");
+        }
+        if (jobCat == "puma") {
           backBtn.querySelector(
             ".text_btn-purple"
           ).innerText = `ALL PUMA BRAND AMBASSADORS POSTIONS`;
-        if (jobCat == "terrex")
+          baBtn.classList.remove("color_purple");
+          baBtn.classList.add("color_purple");
+        }
+        if (jobCat == "terrex") {
           backBtn.querySelector(
             ".text_btn-purple"
           ).innerText = `ALL ADIDAS TERREX BRAND AMBASSADORS POSTIONS`;
+          baBtn.classList.remove("color_purple");
+          baBtn.classList.add("color_purple");
+        }
         baJobsContainer.classList.add("hidden");
         infoContainer.classList.add("hidden");
         document.getElementById(jobCat).classList.add("color_purple");

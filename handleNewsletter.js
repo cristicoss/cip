@@ -17,6 +17,9 @@ const positionNews = document.getElementById("Fachgebiet-2");
 const experienceNews = document.getElementById("Erfahrung-2");
 const placeNews = document.getElementById("Ort-2");
 
+const downloadButton = document.querySelector(".btn_dwldpdf");
+const iframeContainer = document.querySelector(".iframe_container");
+
 let employmentType = "";
 
 const currentURL = window.location.href;
@@ -44,6 +47,7 @@ const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmZnh0cW9hZ2hjdXdwbnNsZ3RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTEzNjM4NzIsImV4cCI6MjAyNjkzOTg3Mn0.PUC3EpGYrLV8ZMKFu428qErvYRV7GtBlf4WfWHJrs-k";
 
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+console.log(supabase);
 
 formNews.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -102,3 +106,67 @@ formNews.addEventListener("submit", function (event) {
 
   insertRow();
 });
+
+class App2 {
+  constructor() {
+    this._getJob();
+  }
+
+  _getJob() {
+    const request = new XMLHttpRequest();
+
+    request.open(
+      "GET",
+      "https://cip-marketing-gmbh.jobs.personio.de/xml?language=en",
+      true
+    );
+
+    request.onload = async function () {
+      // Create a new DOMParser
+      const parserIndividualJob = new DOMParser();
+      // Parse the XML data
+      const xmlDoc2 = await parserIndividualJob.parseFromString(
+        request.response,
+        "text/xml"
+      );
+      // console.log(xmlDoc);
+      const data = [...xmlDoc2.getElementsByTagName("position")];
+
+      const getPosition = function (jobID) {
+        data.forEach((data) => {
+          const positionID = data.getElementsByTagName("id")[0];
+          if (positionID.textContent === jobID) {
+            console.log(data.innerHTML);
+            // console.log(
+            //   data.getElementsByTagName("jobDescriptions")[0].innerHTML
+            // );
+            return;
+            department.push({
+              id: data.getElementsByTagName("id")[0].textContent,
+              name: data.getElementsByTagName("name")[0].textContent,
+              department: position.textContent,
+              office: data.getElementsByTagName("office")[0].textContent,
+              employmentType:
+                data.getElementsByTagName("employmentType")[0].textContent,
+              seniority: data.getElementsByTagName("seniority")[0].textContent,
+              schedule: data.getElementsByTagName("schedule")[0].textContent,
+              client: client,
+            });
+          }
+        });
+      };
+
+      const urlParams2 = new URLSearchParams(window.location.search);
+
+      const jobID = urlParams2.get("jobid");
+      getPosition(jobID);
+
+      const currentURL2 = window.location.href;
+      let careerURL2 = "";
+    };
+
+    request.send();
+  }
+}
+
+const app = new App2();
