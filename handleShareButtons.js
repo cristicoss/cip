@@ -82,7 +82,10 @@ class App2 {
       }
 
       function shareToX() {
-        const tweetText = `Open position at cip marketing -> ${jobTitle}`; // Customize your text
+        const tweetText =
+          jobID === "109507"
+            ? `Apply for a spontanous application at cip marketing`
+            : `Open position at cip marketing -> ${jobTitle}`; // Customize your text
         const twitterURL = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
           properUrl
         )}&text=${encodeURIComponent(tweetText)}`;
