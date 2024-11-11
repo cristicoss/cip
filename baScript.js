@@ -12,6 +12,9 @@ const infoContainer = document.querySelector(".info_container");
 jobTitleWrpr.innerHTML = "";
 
 const baBtn = document.querySelectorAll(".ba_logo-btn");
+const btnAdidas = document.getElementById("addias");
+const btnPuma = document.getElementById("puma");
+const btnTerrex = document.getElementById("terrex");
 
 let jobID = "";
 let jobCat = "";
@@ -124,22 +127,28 @@ class App {
           backBtn.querySelector(
             ".text_btn-purple"
           ).innerText = `ALL ADIDAS BRAND AMBASSADORS POSTIONS`;
-          baBtn.adidas.classList.remove("color_purple");
-          baBtn.adidas.classList.add("color_purple");
+          if (btnAdidas) {
+            btnAdidas.classList.remove("color_purple");
+            btnAdidas.classList.add("color_purple");
+          }
         }
         if (jobCat == "puma") {
           backBtn.querySelector(
             ".text_btn-purple"
           ).innerText = `ALL PUMA BRAND AMBASSADORS POSTIONS`;
-          baBtn.classList.remove("color_purple");
-          baBtn.classList.add("color_purple");
+          if (btnPuma) {
+            btnPuma.classList.remove("color_purple");
+            btnPuma.classList.add("color_purple");
+          }
         }
         if (jobCat == "terrex") {
           backBtn.querySelector(
             ".text_btn-purple"
           ).innerText = `ALL ADIDAS TERREX BRAND AMBASSADORS POSTIONS`;
-          baBtn.classList.remove("color_purple");
-          baBtn.classList.add("color_purple");
+          if (btnTerrex) {
+            btnTerrex.classList.remove("color_purple");
+            btnTerrex.classList.add("color_purple");
+          }
         }
         baJobsContainer.classList.add("hidden");
         infoContainer.classList.add("hidden");
