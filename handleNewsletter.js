@@ -107,6 +107,7 @@ formNews.addEventListener("submit", function (event) {
   insertRow();
 });
 
+/*
 class App2 {
   constructor() {
     this._getJob();
@@ -136,7 +137,7 @@ class App2 {
         data.forEach((data) => {
           const positionID = data.getElementsByTagName("id")[0];
           if (positionID.textContent === jobID) {
-            console.log(data.innerHTML);
+            console.log(data.getElementsByTagName("name")[0]);
             // console.log(
             //   data.getElementsByTagName("jobDescriptions")[0].innerHTML
             // );
@@ -170,3 +171,5 @@ class App2 {
 }
 
 const app = new App2();
+
+*/
