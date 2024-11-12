@@ -9,7 +9,7 @@ const jobTitleWrpr = document.querySelector(".job_title-container");
 const backBtn = document.getElementById("backjobs");
 const infoContainer = document.querySelector(".info_container");
 
-jobTitleWrpr.innerHTML = "";
+jobTitleWrpr.innerHTML = "param";
 
 const baBtn = document.querySelectorAll(".ba_logo-btn");
 const btnAdidas = document.getElementById("addias");
