@@ -121,7 +121,6 @@ class App {
 
       if (jobID && jobCat) {
         iframeContainer.classList.remove("hidden");
-        document.getElementById("logos").scrollIntoView({ behavior: "smooth" });
 
         if (jobCat == "adidas") {
           backBtn.querySelector(
@@ -160,7 +159,7 @@ class App {
         iframeContainer.classList.add("hidden");
         infoContainer.classList.remove("hidden");
         baJobsContainer.classList.remove("hidden");
-        document.getElementById("logos").scrollIntoView({ behavior: "smooth" });
+        // document.getElementById("logos").scrollIntoView({ behavior: "smooth" });
 
         document.getElementById(jobCat).classList.add("color_purple");
         document.getElementById(jobCat + "-info").classList.remove("hidden");
