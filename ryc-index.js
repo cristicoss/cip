@@ -49,7 +49,7 @@ const hideHeaders = function () {
 };
 
 thumbsDesktop.forEach((thumb) => {
-  thumb.addEventListener("mouseout", function () {
+  thumb.addEventListener("mouseleave", function () {
     hideHeaders();
   });
 });
