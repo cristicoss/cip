@@ -3,6 +3,7 @@ console.log("loaded");
 console.log("Script is running!");
 
 const thumbs = document.querySelectorAll(".city-thumb");
+const thumbsDesktop = document.querySelectorAll(".city-thumb.desktop");
 const headerGeneric = document.querySelector(".header-generic");
 const headers = document.querySelectorAll(".w-dyn-item");
 const headersWrapper = document.querySelector(".headers-wrapper");
@@ -47,7 +48,7 @@ const hideHeaders = function () {
   });
 };
 
-thumbs.forEach((thumb) => {
+thumbsDesktop.forEach((thumb) => {
   thumb.addEventListener("mouseout", function () {
     hideHeaders();
   });
