@@ -2,40 +2,44 @@
 console.log("loaded");
 console.log("Script is running!");
 
-const thumbs = document.querySelectorAll(".city-thumb");
+// const thumbsDesktop = document.querySelectorAll(".city-thumb");
 const thumbsDesktop = document.querySelectorAll(".city-thumb.desktop");
 const headerGeneric = document.querySelector(".header-generic");
-const headers = document.querySelectorAll(".w-dyn-item");
 const headersWrapper = document.querySelector(".headers-wrapper");
+
 const cityHeaders = [];
 
-headers.forEach((header) => {
-  header.classList.add("hidden");
-});
+// headers.forEach((header) => {
+//   header.classList.add("hidden");
+// });
 
 const showHeaders = function (thumb) {
   headersWrapper.classList.remove("hidden");
 
   headerGeneric.classList.add("hidden");
+  const headers = headersWrapper.querySelectorAll(".cms-item");
+  console.log(headers);
+
   headers.forEach((header) => {
     header.classList.add("hidden");
 
     if (
-      header.querySelector(".pos").textContent === thumb.getAttribute("pos")
+      header.querySelector(".pos").textContent ===
+      thumb.querySelector(".pos").textContent
     ) {
-      console.log(header.querySelector(".pos").textContent);
+      console.log(thumb.querySelector(".pos").textContent);
       header.classList.remove("hidden");
     }
   });
 };
 
-thumbs.forEach((thumb) => {
+thumbsDesktop.forEach((thumb) => {
   thumb.addEventListener("click", function () {
     showHeaders(thumb);
   });
 });
 
-thumbs.forEach((thumb) => {
+thumbsDesktop.forEach((thumb) => {
   thumb.addEventListener("mouseover", function () {
     showHeaders(thumb);
   });
@@ -43,13 +47,16 @@ thumbs.forEach((thumb) => {
 
 const hideHeaders = function () {
   headerGeneric.classList.remove("hidden");
+  const headers = headersWrapper.querySelectorAll(".cms-item");
+
   headers.forEach((header) => {
     header.classList.add("hidden");
   });
 };
 
 thumbsDesktop.forEach((thumb) => {
-  thumb.addEventListener("mouseleave", function () {
+  console.log("thumb");
+  thumb.addEventListener("mouseout", function () {
     hideHeaders();
   });
 });
