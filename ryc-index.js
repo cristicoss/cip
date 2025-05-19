@@ -33,12 +33,6 @@ const showHeaders = function (thumb) {
   });
 };
 
-thumbsDesktop.forEach((thumb) => {
-  thumb.addEventListener("click", function () {
-    showHeaders(thumb);
-  });
-});
-
 thumbs.forEach((thumb) => {
   thumb.addEventListener("click", function () {
     showHeaders(thumb);
