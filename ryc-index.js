@@ -35,6 +35,13 @@ const showHeaders = function (thumb) {
 
 thumbs.forEach((thumb) => {
   thumb.addEventListener("click", function () {
+    console.log("thumb mobile");
+    showHeaders(thumb);
+  });
+});
+
+thumbs.forEach((thumb) => {
+  thumb.addEventListener("click", function () {
     showHeaders(thumb);
   });
 });
