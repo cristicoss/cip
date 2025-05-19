@@ -2,7 +2,7 @@
 console.log("loaded");
 console.log("Script is running!");
 
-// const thumbsDesktop = document.querySelectorAll(".city-thumb");
+const thumbs = document.querySelectorAll(".city-thumb.mobile");
 const thumbsDesktop = document.querySelectorAll(".city-thumb.desktop");
 const headerGeneric = document.querySelector(".header-generic");
 const headersWrapper = document.querySelector(".headers-wrapper");
@@ -34,6 +34,12 @@ const showHeaders = function (thumb) {
 };
 
 thumbsDesktop.forEach((thumb) => {
+  thumb.addEventListener("click", function () {
+    showHeaders(thumb);
+  });
+});
+
+thumbs.forEach((thumb) => {
   thumb.addEventListener("click", function () {
     showHeaders(thumb);
   });
