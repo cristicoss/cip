@@ -22,14 +22,27 @@ const fetchedProjects = async (tableName) => {
   }
 };
 
-const insertRow = async (tableName, retailer, name, email, gender, size) => {
+const insertRow = async (
+  tableName,
+  retailerName,
+  q1,
+  q2,
+  q3,
+  q4,
+  q5,
+  name,
+  email
+) => {
   const { data, error } = await supabase.from(tableName).insert([
     {
-      retailer: retailer,
+      retailer: retailerName,
+      premiere: q1,
+      teilnehmerrekord: q2,
+      symbol: q3,
+      emotionen: q4,
+      streckenrekord: q5,
       name: name,
       email: email,
-      gender: gender,
-      size: size,
     },
   ]);
 

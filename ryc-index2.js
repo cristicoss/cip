@@ -18,7 +18,6 @@ const showHeaders = function (thumb) {
 
   headerGeneric.classList.add("hidden");
   const headers = headersWrapper.querySelectorAll(".cms-item");
-  console.log(headers);
 
   headers.forEach((header) => {
     header.classList.add("hidden");
@@ -27,7 +26,7 @@ const showHeaders = function (thumb) {
       header.querySelector(".pos").textContent ===
       thumb.querySelector(".pos").textContent
     ) {
-      console.log(thumb.querySelector(".pos").textContent);
+      console.log(thumb.querySelector(".pos").textContent, header);
       header.classList.remove("hidden");
     }
   });
@@ -49,6 +48,7 @@ thumbs.forEach((thumb) => {
 thumbsDesktop.forEach((thumb) => {
   thumb.addEventListener("mouseover", function () {
     showHeaders(thumb);
+    console.log("thumb desktop");
   });
 });
 
