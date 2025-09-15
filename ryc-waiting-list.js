@@ -2,7 +2,7 @@
 console.log("loaded");
 
 import { fetchedProjects, supabase } from "./fetch-api.js";
-import { insertSupaRow } from "./insert-supabase.js";
+import { insertSupaRow } from "./insert-supa-rows.js";
 
 // listing users
 const readData = async function (tableName) {
