@@ -1,6 +1,5 @@
 "use strict";
 console.log("loaded");
-console.log("Script is running!");
 
 const thumbs = document.querySelectorAll(".city-thumb.mobile");
 const thumbsDesktop = document.querySelectorAll(".city-thumb.desktop");

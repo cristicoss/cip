@@ -61,3 +61,5 @@ const insertRow = async (
 };
 
 export { fetchedProjects, supabase, insertRow };
+
+
