@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Test Alpine simplu</title>
+    <script defer src="https://fruity-mugs-knock.loca.lt/app.js"></script>
+
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body x-data>
+    <template x-for="job in $store.jobs.jobs">
+      <h1 x-text="job.name"></h1>
+    </template>
+  </body>
+</html>
