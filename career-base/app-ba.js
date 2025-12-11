@@ -52,13 +52,11 @@ document.addEventListener("alpine:init", () => {
     loading: false,
     selected: false,
 
-    deptValue: "All Departments",
-    experienceValue: "Experience",
-    countryValue: "Country",
+    brandValue: "Brand",
+    locationValue: "Location",
 
-    openDept: false,
-    openExp: false,
-    openCountry: false,
+    openBrand: false,
+    openLocation: false,
 
     async init() {
       this.loading = true;
@@ -72,39 +70,47 @@ document.addEventListener("alpine:init", () => {
         this.loading = false;
       }
       document.addEventListener("click", (e) => {
-        if (this.openDept && !this.$refs.dropdown1.contains(e.target)) {
-          this.openDept = false;
+        if (this.openBrand && !this.$refs.dropdown1.contains(e.target)) {
+          this.openBrand = false;
         }
 
-        if (this.openExp && !this.$refs.dropdown2.contains(e.target)) {
-          this.openExp = false;
+        if (this.openLocation && !this.$refs.dropdown2.contains(e.target)) {
+          this.openLocation = false;
+        }
+      });
+    },
+
+    handleFilters(filters, allJobs) {
+      console.log(filters);
+      const { brand, location } = filters;
+      console.log(allJobs);
+
+      return allJobs.filter((job) => {
+        if (brand && brand !== "Brand") {
+          if (!job.name.toLowerCase().includes("sport")) return false;
         }
 
-        if (this.openCountry && !this.$refs.dropdown3.contains(e.target)) {
-          this.openCountry = false;
+        if (location && location !== "Experience") {
+          if (!job.experienceLevel.label.includes(location)) return false;
         }
+        return true; // dacă a trecut de toate condițiile → job-ul rămâne
       });
     },
 
     select(dept, index) {
       if (index === 1) {
-        this.deptValue = dept;
-        this.openDept = !this.openDept;
+        this.brandValue = dept;
+        this.openBrand = !this.openBrand;
       }
       if (index === 2) {
-        this.experienceValue = dept;
-        this.openExp = !this.openExp;
-      }
-      if (index === 3) {
-        this.countryValue = dept;
-        this.openCountry = !this.openCountry;
+        this.locationValue = dept;
+        this.openLocation = !this.openLocation;
       }
 
-      this.filteredJobs = _handleFilters(
+      this.filteredJobs = this.handleFilters(
         {
-          dept: this.deptValue,
-          exp: this.experienceValue,
-          country: this.countryValue,
+          brand: this.brandValue,
+          location: this.locationValue,
         },
         this.allJobs
       );
