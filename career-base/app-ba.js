@@ -2,7 +2,7 @@
 // npx localtunnel --port 5500
 // 87.123.240.35
 console.log("at least the script is running cip");
-import { _handleFilters } from "./handle-filter.js";
+
 let allJobs = [];
 let loading;
 let error;
@@ -19,7 +19,7 @@ async function loadJobsFromAPI() {
   error = null;
   try {
     const res = await fetch(
-      `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH-sandbox/postings?department=13206491`
+      `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings?department=13386334`
     );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
@@ -81,17 +81,23 @@ document.addEventListener("alpine:init", () => {
     },
 
     handleFilters(filters, allJobs) {
-      console.log(filters);
+      console.log(this.filteredJobs);
       const { brand, location } = filters;
-      console.log(allJobs);
+      console.log(brand);
 
       return allJobs.filter((job) => {
+        console.log(job.name);
         if (brand && brand !== "Brand") {
-          if (!job.name.toLowerCase().includes("sport")) return false;
+          if (brand === "adidas")
+            return (
+              job.name.toLowerCase().includes(brand.toLowerCase()) &&
+              !job.name.toLowerCase().includes("terrex")
+            );
+          else return job.name.toLowerCase().includes(brand.toLowerCase());
         }
 
-        if (location && location !== "Experience") {
-          if (!job.experienceLevel.label.includes(location)) return false;
+        if (location && location !== "Location") {
+          if (!job.location.country.includes(location)) return false;
         }
         return true; // dacă a trecut de toate condițiile → job-ul rămâne
       });
@@ -115,6 +121,57 @@ document.addEventListener("alpine:init", () => {
         this.allJobs
       );
       console.log(this.filteredJobs);
+    },
+  }));
+
+  Alpine.data("qaSlider", () => ({
+    loop: false, // pune true dacă vrei să reia de la început
+    testMsg: "Test",
+    next() {
+      const el = this.$refs.track;
+      console.log(el);
+      if (!el) return;
+
+      const maxScroll = el.scrollWidth - el.clientWidth;
+
+      if (this.loop && el.scrollLeft >= maxScroll) {
+        // sari la început
+        el.scrollTo({ left: 0, behavior: "smooth" });
+        return;
+      }
+
+      const target = Math.min(el.scrollLeft + el.clientWidth, maxScroll);
+      el.scrollTo({ left: target, behavior: "smooth" });
+    },
+
+    prev() {
+      const el = this.$refs.track;
+      if (!el) return;
+
+      const maxScroll = el.scrollWidth - el.clientWidth;
+
+      if (this.loop && el.scrollLeft <= 0) {
+        // sari la capăt
+        el.scrollTo({ left: maxScroll, behavior: "smooth" });
+        return;
+      }
+
+      const target = Math.max(el.scrollLeft - el.clientWidth, 0);
+      el.scrollTo({ left: target, behavior: "smooth" });
+    },
+    openVideo(videoUrl) {
+      this.$refs.qaPopUp.classList.remove("hidden");
+      const html = `<video width="100%" height="100%" autoplay>
+    <source src="${videoUrl}">
+  Your browser does not support the video tag.
+  </video>`;
+
+      this.$refs.videoBody.innerHTML = html;
+    },
+
+    closeVideo() {
+      this.$refs.qaPopUp.classList.add("hidden");
+      this.$refs.videoBody.innerHTML = "";
     },
   }));
 });

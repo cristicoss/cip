@@ -1,7 +1,12 @@
 //https://careers.smartrecruiters.com/CipMarketingGmbH-sandbox
 // npx localtunnel --port 5500
 // 87.123.240.35
-console.log("at least the script is running cip");
+console.log("at least the script is running app");
+const urlParams = new URLSearchParams(window.location.search);
+const deptID = urlParams.get("department");
+
+console.log(deptID);
+
 import { _handleFilters } from "./handle-filter.js";
 let allJobs = [];
 let loading;
@@ -19,7 +24,9 @@ async function loadJobsFromAPI() {
   error = null;
   try {
     const res = await fetch(
-      `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings`
+      deptID
+        ? `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings?department=${deptID}`
+        : `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings`
     );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
@@ -71,6 +78,17 @@ document.addEventListener("alpine:init", () => {
       } finally {
         this.loading = false;
       }
+      console.log(this.allJobs[0].department?.label);
+      if (deptID) this.deptValue = this.allJobs[0].department?.label;
+
+      this.filteredJobs = _handleFilters(
+        {
+          dept: this.deptValue,
+          exp: this.experienceValue,
+          country: this.countryValue,
+        },
+        this.allJobs
+      );
       document.addEventListener("click", (e) => {
         if (this.openDept && !this.$refs.dropdown1.contains(e.target)) {
           this.openDept = false;

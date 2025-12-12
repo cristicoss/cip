@@ -20,7 +20,7 @@ document.addEventListener("alpine:init", () => {
       this.error = null;
       try {
         const res = await fetch(
-          `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH-sandbox/postings/${jobID}`
+          `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings/${jobID}`
         );
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
