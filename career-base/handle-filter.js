@@ -1,4 +1,4 @@
-const _handlePopUp = function (showEl) {
+const _handleFilters = function (filters, allJobs) {
   console.log(filters);
   const { dept, exp, country } = filters;
   return allJobs.filter((job) => {

@@ -90,7 +90,7 @@ document.addEventListener("alpine:init", () => {
         this.allJobs
       );
       document.addEventListener("click", (e) => {
-        if (this.openDept && !this.$.contactForm.dropdown1.contains(e.target)) {
+        if (this.openDept && !this.$refs.dropdown1.contains(e.target)) {
           this.openDept = false;
         }
 
