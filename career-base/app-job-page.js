@@ -72,6 +72,10 @@ document.addEventListener("alpine:init", () => {
       innerBtn.dispatchEvent(evt);
     },
   }));
+
+  Alpine.data("popup", () => ({
+    openEl: "contact",
+  }));
 });
 
 // pornește fetch-ul după ce DOM e gata

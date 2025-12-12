@@ -90,7 +90,7 @@ document.addEventListener("alpine:init", () => {
         this.allJobs
       );
       document.addEventListener("click", (e) => {
-        if (this.openDept && !this.$refs.dropdown1.contains(e.target)) {
+        if (this.openDept && !this.$.contactForm.dropdown1.contains(e.target)) {
           this.openDept = false;
         }
 
@@ -105,6 +105,7 @@ document.addEventListener("alpine:init", () => {
     },
 
     select(dept, index) {
+      console.log(dept);
       if (index === 1) {
         this.deptValue = dept;
         this.openDept = !this.openDept;
@@ -128,5 +129,9 @@ document.addEventListener("alpine:init", () => {
       );
       console.log(this.filteredJobs);
     },
+  }));
+
+  Alpine.data("popup", () => ({
+    openEl: "contact",
   }));
 });
