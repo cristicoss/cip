@@ -14,6 +14,7 @@ document.addEventListener("alpine:init", () => {
     department: "",
     loading: false,
     error: null,
+    popUpComp: "contact",
 
     async loadJobs() {
       this.loading = true;
@@ -43,38 +44,6 @@ document.addEventListener("alpine:init", () => {
       if (this.accNumber === accNumber) this.accNumber = 0;
       else this.accNumber = accNumber;
     },
-  }));
-
-  Alpine.data("handleSmartRecruiters", () => ({
-    clickSR() {
-      const srRoot = this.$refs["btnSR"]; // div-ul lor
-      if (!srRoot) {
-        console.log("nu am găsit srRoot");
-        return;
-      }
-
-      console.log("srRoot:", srRoot);
-
-      const innerBtn = srRoot.querySelector("button, a");
-      console.log("innerBtn:", innerBtn);
-
-      if (!innerBtn) {
-        console.log("inner button nu e gata încă");
-        return;
-      }
-
-      const evt = new MouseEvent("click", {
-        bubbles: true,
-        cancelable: true,
-        view: window,
-      });
-
-      innerBtn.dispatchEvent(evt);
-    },
-  }));
-
-  Alpine.data("popup", () => ({
-    openEl: "contact",
   }));
 });
 
