@@ -11,7 +11,6 @@ document.addEventListener("alpine:init", () => {
   Alpine.store("jobs", {
     message: "message",
     job: {},
-    department: "",
     loading: false,
     error: null,
     popUpComp: "contact",
@@ -26,8 +25,6 @@ document.addEventListener("alpine:init", () => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         this.job = data;
-        console.log(this.job.name);
-        this.department = data.name;
       } catch (e) {
         console.error(e);
         this.error = e.message;

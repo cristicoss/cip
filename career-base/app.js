@@ -53,6 +53,10 @@ async function loadJobsFromAPI() {
 }
 
 document.addEventListener("alpine:init", () => {
+  Alpine.store("jobs", {
+    popUpComp: "contact",
+  });
+
   Alpine.data("handleFilters", () => ({
     allJobs: [],
     filteredJobs: [],
@@ -130,8 +134,19 @@ document.addEventListener("alpine:init", () => {
       console.log(this.filteredJobs);
     },
   }));
+});
 
-  Alpine.data("popup", () => ({
-    openEl: "contact",
-  }));
+const srBtn = document.getElementById("sr-alert-button");
+const triggers = document.querySelectorAll("[data-sr-trigger]");
+
+triggers.forEach((trigger) => {
+  trigger.addEventListener("mouseenter", () => {
+    console.log(srBtn);
+    const rect = trigger.getBoundingClientRect();
+
+    srBtn.style.width = rect.width + "px";
+    srBtn.style.height = rect.height + "px";
+    srBtn.style.left = rect.left + window.scrollX + "px";
+    srBtn.style.top = rect.top + window.scrollY + "px";
+  });
 });

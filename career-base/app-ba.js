@@ -1,6 +1,7 @@
 //https://careers.smartrecruiters.com/CipMarketingGmbH-sandbox
 // npx localtunnel --port 5500
 // 87.123.240.35
+
 console.log("at least the script is running cip");
 
 let allJobs = [];
@@ -46,6 +47,10 @@ async function loadJobsFromAPI() {
 }
 
 document.addEventListener("alpine:init", () => {
+  Alpine.store("jobs", {
+    popUpComp: "contact",
+  });
+
   Alpine.data("handleFilters", () => ({
     allJobs: [],
     filteredJobs: [],
