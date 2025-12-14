@@ -6,31 +6,37 @@
 console.log("at least the script is running cip");
 const urlParams = new URLSearchParams(window.location.search);
 const jobID = urlParams.get("jobid");
+window.job = null;
+
+(async function () {
+  try {
+    const id = jobID || "744000098608007";
+
+    const res = await fetch(
+      `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings/${id}`
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    window.job = await res.json();
+  } catch (e) {
+    console.error(e);
+    window.job = null;
+  } finally {
+    // pornește Alpine doar acum
+    Alpine.start();
+  }
+})();
 
 document.addEventListener("alpine:init", () => {
   Alpine.store("jobs", {
     message: "message",
-    job: {},
+    job: window.job,
     loading: false,
     error: null,
     popUpComp: "contact",
 
-    async loadJobs() {
-      this.loading = true;
-      this.error = null;
-      try {
-        const res = await fetch(
-          `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings/${jobID}`
-        );
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        this.job = data;
-      } catch (e) {
-        console.error(e);
-        this.error = e.message;
-      } finally {
-        this.loading = false;
-      }
+    determineImage() {
+      console.log(this.job.name);
     },
   });
 
@@ -42,10 +48,4 @@ document.addEventListener("alpine:init", () => {
       else this.accNumber = accNumber;
     },
   }));
-});
-
-// pornește fetch-ul după ce DOM e gata
-document.addEventListener("DOMContentLoaded", () => {
-  Alpine.store("jobs").loadJobs();
-  console.log(jobID);
 });
