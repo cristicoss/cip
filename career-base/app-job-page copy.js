@@ -1,21 +1,17 @@
-console.log("script running");
+//https://careers.smartrecruiters.com/CipMarketingGmbH-sandbox
+// npx localtunnel --port 5500
+// 87.123.240.35
+// https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH-sandbox/postings/
+console.log("at least the job detail app is running");
 
-const urlParams = new URLSearchParams(window.location.search);
-const jobID = urlParams.get("jobid") || "744000098608007";
-
-async function loadJobFromAPI(id) {
-  const res = await fetch(
-    `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings/${id}`
-  );
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return await res.json(); // <- obiect job
-}
-
-document.addEventListener("alpine:init", async () => {
+document.addEventListener("alpine:init", () => {
   Alpine.store("jobs", {
+    message: "message",
+    get job() {
+      return window.job;
+    },
+
     popUpComp: "contact",
-    job: null,
-    profil: null,
   });
 
   Alpine.data("accordion", () => ({
@@ -31,7 +27,7 @@ document.addEventListener("alpine:init", async () => {
     urlParams: new URLSearchParams(window.location.search),
     jobID: urlParams.get("jobid"),
 
-    job: null,
+    job,
     displayImg: "generic",
     init() {
       this.$watch("$store.jobs.job", (job) => {
@@ -42,7 +38,7 @@ document.addEventListener("alpine:init", async () => {
 
     jobImg() {
       let deptID = this.job?.customField[6].valueId;
-      if (!this.job) return;
+      if (!job) return;
       console.log(deptID);
       if (deptID === "13386334") {
         if (this.job.name.toLowerCase().includes("puma"))
@@ -76,17 +72,4 @@ document.addEventListener("alpine:init", async () => {
       }
     },
   }));
-
-  try {
-    const job = await loadJobFromAPI(jobID);
-    Alpine.store("jobs").job = job;
-    Alpine.store("jobs").profil =
-      job.jobAd?.sections?.qualifications?.text.replace(
-        /<p>\s*<strong>\s*(dein profil|your profile)\s*<\/strong>\s*<\/p>/gi,
-        ""
-      );
-    console.log("job in store:", job);
-  } catch (e) {
-    console.error(e);
-  }
 });
