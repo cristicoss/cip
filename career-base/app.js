@@ -1,6 +1,4 @@
-//https://careers.smartrecruiters.com/CipMarketingGmbH-sandbox
-// npx localtunnel --port 5500
-// 87.123.240.35
+// merge si daca in url exista parametrul 'department' dar nu e rezolvata logica: care departament sa fie afisat?
 console.log("at least the script is running app");
 const urlParams = new URLSearchParams(window.location.search);
 const deptID = urlParams.get("department");
@@ -24,9 +22,7 @@ async function loadJobsFromAPI() {
   error = null;
   try {
     const res = await fetch(
-      deptID
-        ? `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings?department=${deptID}`
-        : `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings`
+      `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings`
     );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
@@ -83,7 +79,17 @@ document.addEventListener("alpine:init", () => {
         this.loading = false;
       }
       console.log(this.allJobs[0].department?.label);
-      if (deptID) this.deptValue = this.allJobs[0].department?.label;
+      if (deptID) {
+        this.deptValue = deptID;
+        this.filteredJobs = _handleFilters(
+          {
+            dept: this.deptValue,
+            exp: this.experienceValue,
+            country: this.countryValue,
+          },
+          this.allJobs
+        );
+      }
 
       this.filteredJobs = _handleFilters(
         {

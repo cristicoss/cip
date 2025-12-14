@@ -4,7 +4,7 @@ const _handleFilters = function (filters, allJobs) {
   return allJobs.filter((job) => {
     // 1) Department
     if (dept && dept !== "All Departments") {
-      if (!job.department.label.includes(dept)) return false;
+      if (job.department.id != dept) return false;
     }
 
     // 2) Experience
@@ -12,14 +12,12 @@ const _handleFilters = function (filters, allJobs) {
       if (!job.experienceLevel.label.includes(exp)) return false;
     }
 
-    // 3) Country (adaptăm la structura ta)
+    // 3) Country
     if (country && country !== "Country") {
-      // aici depinde exact ce ai în job.location
-      // exemplu simplu, dacă dropdown-ul e "Germany" și în job ai "Germany" în fullLocation:
       if (!job.location.country.includes(country)) return false;
     }
 
-    return true; // dacă a trecut de toate condițiile → job-ul rămâne
+    return true;
   });
 
   /*
