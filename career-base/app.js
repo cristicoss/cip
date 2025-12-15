@@ -2,7 +2,7 @@
 console.log("at least the script is running app");
 const urlParams = new URLSearchParams(window.location.search);
 const deptID = urlParams.get("department");
-const docURL = ocument.URL;
+const docURL = document.URL;
 
 console.log(deptID);
 
