@@ -9,7 +9,7 @@ const _handleFilters = function (filters, allJobs) {
 
     // 2) Experience
     if (exp && exp !== "Experience") {
-      if (!job.experienceLevel.label.includes(exp)) return false;
+      if (!job.customField[7].valueLabel.includes(exp)) return false;
     }
 
     // 3) Country
@@ -21,6 +21,10 @@ const _handleFilters = function (filters, allJobs) {
   });
 
   /*
+  Entry level
+  Professional
+  Senior Level
+  Students
 Logica: 
 1. 
 get a a key and a value (string separated by space) -> 
