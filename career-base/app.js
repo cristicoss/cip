@@ -2,6 +2,7 @@
 console.log("at least the script is running app");
 const urlParams = new URLSearchParams(window.location.search);
 const deptID = urlParams.get("department");
+const docURL = ocument.URL;
 
 console.log(deptID);
 
@@ -14,6 +15,14 @@ let priority = {
   "en-GB": 2,
   de: 3,
 };
+
+if (docURL.includes("karriere")) {
+  priority = {
+    en: 2,
+    "en-GB": 3,
+    de: 1,
+  };
+}
 function getPriority(lang) {
   return priority[lang] ?? 2;
 }
