@@ -82,7 +82,7 @@ document.addEventListener("alpine:init", async () => {
     Alpine.store("jobs").job = job;
     Alpine.store("jobs").profil =
       job.jobAd?.sections?.qualifications?.text.replace(
-        /<p>\s*<strong>\s*(dein profil|your profile)\s*<\/strong>\s*<\/p>/gi,
+        /<p>\s*<strong>\s*(dein profil:|your profile|your profile:)\s*<\/strong>\s*<\/p>/gi,
         ""
       );
     console.log("job in store:", job);
