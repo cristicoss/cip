@@ -76,6 +76,8 @@ document.addEventListener("alpine:init", () => {
     openExp: false,
     openCountry: false,
 
+    deptText: "All Departments",
+
     async init() {
       this.loading = true;
       try {
@@ -123,8 +125,9 @@ document.addEventListener("alpine:init", () => {
       });
     },
 
-    select(dept, index) {
-      console.log(dept);
+    select(dept, index, el) {
+      console.log(el.textContent);
+      this.deptText = el.textContent;
       if (index === 1) {
         this.deptValue = dept;
         this.openDept = !this.openDept;
