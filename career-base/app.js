@@ -76,7 +76,7 @@ document.addEventListener("alpine:init", () => {
     openExp: false,
     openCountry: false,
 
-    deptText: "All Departments",
+    deptText: "",
 
     async init() {
       this.loading = true;
