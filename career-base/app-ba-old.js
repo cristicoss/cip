@@ -1,11 +1,10 @@
-// merge si daca in url exista parametrul 'department' dar nu e rezolvata logica: care departament sa fie afisat? textContent
-// merge si daca in url exista parametrul 'department' dar nu e rezolvata logica: care departament sa fie afisat? textContent
-console.log("at least the script is running app");
-const urlParams = new URLSearchParams(window.location.search);
-const deptID = urlParams.get("department");
-const docURL = document.URL;
+//https://careers.smartrecruiters.com/CipMarketingGmbH-sandbox
+// npx localtunnel --port 5500
+// 87.123.240.35 Location
 
+console.log("at least the script is running 22-01");
 import { _handleFiltersBA } from "./handle-filter.js";
+
 let allJobs = [];
 let loading;
 let error;
@@ -14,14 +13,6 @@ let priority = {
   "en-GB": 2,
   de: 3,
 };
-
-if (docURL.includes("karriere")) {
-  priority = {
-    en: 2,
-    "en-GB": 3,
-    de: 1,
-  };
-}
 function getPriority(lang) {
   return priority[lang] ?? 2;
 }
@@ -72,8 +63,6 @@ document.addEventListener("alpine:init", () => {
     openExp: false,
     openCountry: false,
 
-    deptText: "",
-
     async init() {
       this.loading = true;
       try {
@@ -85,33 +74,31 @@ document.addEventListener("alpine:init", () => {
       } finally {
         this.loading = false;
       }
-      if (deptID) {
-        this.deptValue = deptID;
-        this.filteredJobs = _handleFiltersBA(
-          {
-            dept: this.deptValue,
-            exp: this.experienceValue,
-            country: this.countryValue,
-          },
-          this.allJobs,
-        );
-      }
+
+      console.log("jobs from API:", allJobs?.length, allJobs?.[0]);
+      this.allJobs = allJobs;
+      this.filteredJobs = allJobs;
+      document.addEventListener("click", (e) => {
+        if (this.openDept && !this.$refs.dropdown1.contains(e.target)) {
+          this.openDept = false;
+        }
+
+        if (this.openCountry && !this.$refs.dropdown3.contains(e.target)) {
+          this.openCountry = false;
+        }
+      });
 
       this.filteredJobs = _handleFiltersBA(
         {
           dept: this.deptValue,
           exp: this.experienceValue,
-          country: this.countryValue,
+          loc: this.countryValue,
         },
         this.allJobs,
       );
       document.addEventListener("click", (e) => {
         if (this.openDept && !this.$refs.dropdown1.contains(e.target)) {
           this.openDept = false;
-        }
-
-        if (this.openExp && !this.$refs.dropdown2.contains(e.target)) {
-          this.openExp = false;
         }
 
         if (this.openCountry && !this.$refs.dropdown3.contains(e.target)) {
@@ -121,15 +108,13 @@ document.addEventListener("alpine:init", () => {
     },
 
     select(dept, index, el) {
+      console.log("dept, index, el.textContent");
+      this.deptText = el.textContent;
       if (index === 1) {
         this.deptValue = dept;
         this.openDept = !this.openDept;
       }
       if (index === 2) {
-        this.experienceValue = dept;
-        this.openExp = !this.openExp;
-      }
-      if (index === 3) {
         this.countryValue = dept;
         this.openCountry = !this.openCountry;
       }
@@ -138,11 +123,77 @@ document.addEventListener("alpine:init", () => {
         {
           dept: this.deptValue,
           exp: this.experienceValue,
-          country: this.countryValue,
+          loc: this.countryValue,
+        },
+        this.allJobs,
+      );
+      console.log(this.filteredJobs);
+    },
+    // handleFilters(filters, allJobs) {
+    //   console.log(filters);
+    //   const { dept, exp, country } = filters;
+    //   return allJobs.filter((job) => {
+    //     // 1) Department
+    //     if (dept && dept !== "All Departments") {
+    //       if (job.department.id != dept) return false;
+    //     }
+
+    //     // 2) Experience
+    //     if (exp && exp !== "Experience") {
+    //       if (!job.customField[7].valueLabel.includes(exp)) return false;
+    //     }
+
+    //     // 3) Country
+    //     if (country && country !== "Country") {
+    //       if (!job.location.country.includes(country)) return false;
+    //     }
+
+    //     return true;
+    //   });
+    // },
+
+    /*
+    handleFilters(filters, allJobs) {
+      console.log(this.filteredJobs);
+      const { brand, location } = filters;
+      console.log(brand, location);
+
+      return allJobs.filter((job) => {
+        console.log(job.name);
+        if (brand && brand !== "Brand") {
+          if (brand === "adidas")
+            return (
+              job.name.toLowerCase().includes(brand.toLowerCase()) &&
+              !job.name.toLowerCase().includes("terrex")
+            );
+          else return job.name.toLowerCase().includes(brand.toLowerCase());
+        }
+
+        if (location && location !== "Location") {
+          if (!job.location.country.includes(location)) return false;
+        }
+        return true; // dacă a trecut de toate condițiile → job-ul rămâne
+      });
+    },
+    select(brand, index) {
+      if (index === 1) {
+        this.deptValue = brand;
+        this.openDept = !this.openDept;
+      }
+      if (index === 2) {
+        this.countryValue = brand;
+        this.openCountry = !this.openCountry;
+      }
+ 
+      this.filteredJobs = this.handleFilters(
+        {
+          brand: this.deptValue,
+          location: this.countryValue,
         },
         this.allJobs,
       );
     },
+    */
   }));
 
   Alpine.data("qaSlider", () => ({
@@ -194,19 +245,4 @@ document.addEventListener("alpine:init", () => {
       this.$refs.videoBody.innerHTML = "";
     },
   }));
-});
-
-const srBtn = document.getElementById("sr-alert-button");
-const triggers = document.querySelectorAll("[data-sr-trigger]");
-
-triggers.forEach((trigger) => {
-  trigger.addEventListener("mouseenter", () => {
-    console.log(srBtn);
-    const rect = trigger.getBoundingClientRect();
-
-    srBtn.style.width = rect.width + "px";
-    srBtn.style.height = rect.height + "px";
-    srBtn.style.left = rect.left + window.scrollX + "px";
-    srBtn.style.top = rect.top + window.scrollY + "px";
-  });
 });

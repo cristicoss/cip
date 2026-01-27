@@ -1,4 +1,4 @@
-// merge si daca in url exista parametrul 'department' dar nu e rezolvata logica: care departament sa fie afisat?
+// merge si daca in url exista parametrul 'department' dar nu e rezolvata logica: care departament sa fie afisat? textContent
 console.log("at least the script is running app");
 const urlParams = new URLSearchParams(window.location.search);
 const deptID = urlParams.get("department");
@@ -31,22 +31,19 @@ async function loadJobsFromAPI() {
   error = null;
   try {
     const res = await fetch(
-      `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings`
+      `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings`,
     );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     allJobs = Array.isArray(data.content)
       ? data.content
       : Array.isArray(data)
-      ? data
-      : [];
+        ? data
+        : [];
 
     // I'm sorting jobs based on language (en, en-GB, de, rest)
     allJobs.sort((a, b) => {
       return getPriority(a.language?.code) - getPriority(b.language?.code);
-    });
-    allJobs.forEach((job) => {
-      console.log(job.department.label);
     });
   } catch (e) {
     console.error(e);
@@ -77,6 +74,7 @@ document.addEventListener("alpine:init", () => {
     openCountry: false,
 
     deptText: "",
+    deptTextDE: "",
 
     async init() {
       this.loading = true;
@@ -89,16 +87,67 @@ document.addEventListener("alpine:init", () => {
       } finally {
         this.loading = false;
       }
-      console.log(this.allJobs[0].department?.label);
-      if (deptID) {
+      if (deptID && deptID != "13386334") {
         this.deptValue = deptID;
+        this.deptText =
+          deptID === "13386045"
+            ? "in Backoffice"
+            : deptID === "13386164"
+              ? "in Coordinator Brand Ambassador Team"
+              : deptID === "13386300"
+                ? "in Dual Studies, Apprenticeship & Internship"
+                : deptID === "13386130"
+                  ? "in Event"
+                  : deptID === "13386079"
+                    ? "in Finance, Controlling, Accounting"
+                    : deptID === "13386198"
+                      ? "in Graphic Design, Art Direction"
+                      : deptID === "13386062"
+                        ? "in IT"
+                        : deptID === "13386113"
+                          ? "in Project Management Marketing"
+                          : deptID === "13386028"
+                            ? "in People & Organization"
+                            : deptID === "13386283"
+                              ? "in Retail & Sales"
+                              : deptID === "13386266"
+                                ? "in Visual Merchandising"
+                                : deptID === "13386011"
+                                  ? "in Warehouse"
+                                  : "";
+        this.deptTextDE =
+          deptID === "13386045"
+            ? "in Backoffice"
+            : deptID === "13386164"
+              ? "in Koordinator Brand Ambassador Team"
+              : deptID === "13386300"
+                ? "in Studium, Ausbildung & Praktikum"
+                : deptID === "13386130"
+                  ? "in Events"
+                  : deptID === "13386079"
+                    ? "in Finance, Controlling, Accounting"
+                    : deptID === "13386198"
+                      ? "in Graphic Design, Art Direction"
+                      : deptID === "13386062"
+                        ? "in IT"
+                        : deptID === "13386113"
+                          ? "in Projektmanagement Marketing"
+                          : deptID === "13386028"
+                            ? "in People & Organization"
+                            : deptID === "13386283"
+                              ? "in Retail & Sales"
+                              : deptID === "13386266"
+                                ? "in Visual Merchandising"
+                                : deptID === "13386011"
+                                  ? "in Lager"
+                                  : "";
         this.filteredJobs = _handleFilters(
           {
             dept: this.deptValue,
             exp: this.experienceValue,
             country: this.countryValue,
           },
-          this.allJobs
+          this.allJobs,
         );
       }
 
@@ -108,7 +157,7 @@ document.addEventListener("alpine:init", () => {
           exp: this.experienceValue,
           country: this.countryValue,
         },
-        this.allJobs
+        this.allJobs,
       );
       document.addEventListener("click", (e) => {
         if (this.openDept && !this.$refs.dropdown1.contains(e.target)) {
@@ -126,9 +175,11 @@ document.addEventListener("alpine:init", () => {
     },
 
     select(dept, index, el) {
-      console.log(el.textContent);
-      this.deptText = el.textContent;
       if (index === 1) {
+        this.deptText =
+          el.textContent === "All Departments" ? `` : `in ${el.textContent}`;
+        this.deptTextDE =
+          el.textContent === "Alle Bereiche" ? `` : `in ${el.textContent}`;
         this.deptValue = dept;
         this.openDept = !this.openDept;
       }
@@ -147,9 +198,8 @@ document.addEventListener("alpine:init", () => {
           exp: this.experienceValue,
           country: this.countryValue,
         },
-        this.allJobs
+        this.allJobs,
       );
-      console.log(this.filteredJobs);
     },
   }));
 });
@@ -159,7 +209,6 @@ const triggers = document.querySelectorAll("[data-sr-trigger]");
 
 triggers.forEach((trigger) => {
   trigger.addEventListener("mouseenter", () => {
-    console.log(srBtn);
     const rect = trigger.getBoundingClientRect();
 
     srBtn.style.width = rect.width + "px";
