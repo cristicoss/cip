@@ -64,7 +64,6 @@ document.addEventListener("alpine:init", async () => {
         if (deptID === "13386130") this.displayImg = "event";
         if (deptID === "13386147") this.displayImg = "outdoor";
         if (deptID === "13386164") this.displayImg = "ba management";
-        if (deptID === "13386181") this.displayImg = "marketing&pm";
         if (deptID === "13386198") this.displayImg = "creative";
         if (deptID === "13386215") this.displayImg = "creative";
         if (deptID === "13386232") this.displayImg = "creative";
