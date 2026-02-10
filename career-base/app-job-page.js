@@ -1,11 +1,12 @@
 console.log("script running");
+//
 
 const urlParams = new URLSearchParams(window.location.search);
 const jobID = urlParams.get("jobid") || "744000098608007";
 
 async function loadJobFromAPI(id) {
   const res = await fetch(
-    `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings/${id}`
+    `https://api.smartrecruiters.com/v1/companies/CipMarketingGmbH1/postings/${id}`,
   );
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return await res.json(); // <- obiect job
@@ -59,7 +60,7 @@ document.addEventListener("alpine:init", async () => {
         if (deptID === "13386062") this.displayImg = "it";
         if (deptID === "13386079") this.displayImg = "controlling";
         if (deptID === "13386096") this.displayImg = "accounting";
-        if (deptID === "13386113") this.displayImg = "wholesale";
+        if (deptID === "13386181") this.displayImg = "wholesale";
         if (deptID === "13386130") this.displayImg = "event";
         if (deptID === "13386147") this.displayImg = "outdoor";
         if (deptID === "13386164") this.displayImg = "ba management";
@@ -83,7 +84,7 @@ document.addEventListener("alpine:init", async () => {
     Alpine.store("jobs").profil =
       job.jobAd?.sections?.qualifications?.text.replace(
         /<p>\s*<strong>\s*(dein profil:|your profile|your profile:)\s*<\/strong>\s*<\/p>/gi,
-        ""
+        "",
       );
     console.log("job in store:", job);
   } catch (e) {

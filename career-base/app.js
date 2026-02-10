@@ -4,7 +4,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const deptID = urlParams.get("department");
 const docURL = document.URL;
 
-console.log(deptID);
+console.log("cip supabse code working second atempt");
 
 import { _handleFilters } from "./handle-filter.js";
 let allJobs = [];
