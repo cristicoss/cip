@@ -1,18 +1,6 @@
-# secrets
+node_modules/
 .env
 .env.*
-!.env.example
-
-# dependencies
-node_modules/
-
-# mac
 .DS_Store
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# optional: local cache
-.cache/
+.vscode/
+index_files/
